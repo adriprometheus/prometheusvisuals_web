@@ -30,8 +30,8 @@ export default function Hero() {
             <h1 className="mb-4 font-mono text-xs uppercase tracking-widest text-neutral-400">
               Producción audiovisual & gestión de redes sociales en Mallorca
             </h1>
-            <span className="max-w-6xl text-5xl leading-tight tracking-tight text-white lg:text-7xl xl:text-8xl font-[family-name:var(--font-bebas)]">
-              MIENTRAS LO PIENSAS OTROS TE ADELANTAN.
+            <span className="max-w-7xl text-5xl leading-tight tracking-tight text-white lg:text-7xl xl:text-8xl font-[family-name:var(--font-bebas)]">
+              MIENTRAS LO PIENSAS, OTROS TE ADELANTAN
             </span>
           </div>
 
