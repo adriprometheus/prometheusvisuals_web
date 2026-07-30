@@ -1,0 +1,271 @@
+@import "tailwindcss";
+
+/* ==========================================================
+   1. CONFIGURACIÓN DEL TEMA (Tailwind v4)
+   Variables globales para tipografía, colores y animaciones.
+   ========================================================== */
+@theme {
+  /* Paleta de colores principal */
+  --color-main: #000000;
+  --color-secnd: #ffffff;
+  --color-projects: #080808;
+  --color-lighthover: #e2e8f0;
+  --color-boldhover: #727880;
+  --color-auxwhite: #aaaaaa;
+  --color-aux: #22c55e; /* Verde corporativo */
+
+  /* Tipografía (inyectada mediante next/font) */
+  --font-display: var(--font-inter), system-ui, sans-serif;
+
+  /* Tamaños de texto con altura de línea emparejada */
+  --text-h1: 4.5rem;
+  --text-h1--line-height: 4.5rem;
+  --text-h2: 2.25rem;
+  --text-h2--line-height: 2.25rem;
+  --text-h3: 1.125rem;
+  --text-h3--line-height: 1.4;
+  --text-h4: 0.5625rem;
+  --text-h4--line-height: 1.4;
+  --text-legal: 0.75rem;
+  --text-legal--line-height: 1.4;
+
+  /* Espaciado personalizado */
+  --spacing-navbar: 12vh;
+
+  /* Asignación de animaciones */
+  --animate-marquee: infinite-leftmover 15s linear infinite;
+  --animate-marquee-reverse: infinite-rightmover 15s linear infinite;
+  --animate-stroke-check: strokeCheck 0.4s cubic-bezier(0.65, 0, 0.45, 1)
+    forwards 0.3s;
+  --animate-fill-check: fillCheck 0.3s ease-in-out forwards 0.7s;
+  --animate-fade-in: fadeIn 0.3s ease forwards;
+}
+
+/* ==========================================================
+   2. KEYFRAMES DE ANIMACIONES
+   ========================================================== */
+@keyframes infinite-leftmover {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes infinite-rightmover {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes strokeCheck {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fillCheck {
+  100% {
+    box-shadow: inset 0px 0px 0px 4px var(--color-aux);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes vertical-wheel {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(calc(-50% - 12px));
+  }
+}
+
+/* ==========================================================
+   3. VARIABLES RAÍZ Y Z-INDEX DE CAPAS
+   ========================================================== */
+:root {
+  --navbarsize: 12vh;
+  --plyr-video-control-background-hover: rgba(255, 255, 255, 0.2);
+  --plyr-color-main: var(--color-lighthover);
+  --plyr-video-controls-background: transparent;
+  --z-navbar: 500;
+  --z-teatro: 20;
+}
+
+[data-navbar] {
+  position: relative;
+  z-index: var(--z-navbar);
+}
+
+/* ==========================================================
+   4. ESTILOS BASE Y RESET DE NAVEGADOR
+   ========================================================== */
+@layer base {
+  html {
+    touch-action: manipulation;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-main text-secnd font-display antialiased;
+  }
+
+  img,
+  video {
+    -webkit-user-drag: none;
+    user-select: none;
+  }
+
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  }
+
+  html.mobile-menu-open {
+    overflow: hidden;
+  }
+}
+
+/* ==========================================================
+   5. COMPONENTES REUTILIZABLES
+   ========================================================== */
+@layer components {
+  /* Enlaces con animación de subrayado */
+  .nav-link {
+    @apply relative whitespace-nowrap;
+  }
+  .nav-link::after {
+    content: "";
+    @apply absolute left-0 bottom-0 h-0.5 w-full bg-secnd origin-bottom-right scale-x-0 transition-transform duration-300 ease-out;
+  }
+  .nav-link:hover::after {
+    @apply origin-bottom-left scale-x-100;
+  }
+
+  /* Marquesina / Texto en movimiento */
+  .marquee-track {
+    @apply flex w-max will-change-transform;
+    animation: infinite-leftmover 25s linear infinite;
+  }
+  .marquee-track.paused {
+    animation-play-state: paused;
+  }
+
+  /* Animación de validación (Checkmark) */
+  .checkmark {
+    @apply w-20 h-20 rounded-full block;
+    stroke-width: 3;
+    stroke: var(--color-aux);
+    stroke-miterlimit: 10;
+    box-shadow: inset 0px 0px 0px var(--color-aux);
+    animation: fillCheck 0.3s ease-in-out forwards 0.7s;
+  }
+  .checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 3;
+    stroke-miterlimit: 10;
+    stroke: var(--color-aux);
+    fill: none;
+    animation: strokeCheck 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+  .checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: strokeCheck 0.4s cubic-bezier(0.65, 0, 0.45, 1) forwards 0.6s;
+  }
+
+  /* Formulario dinámico con etiqueta flotante */
+  .form-input-group {
+    @apply relative w-full;
+  }
+  .form-input-group input,
+  .form-input-group textarea,
+  .form-input-group select {
+    @apply w-full bg-transparent border border-auxwhite/50 rounded-lg px-4 pt-5 pb-2 text-secnd outline-none transition-colors focus:border-secnd;
+  }
+  .form-input-group label {
+    @apply pointer-events-none absolute left-4 top-3.5 text-auxwhite transition-all duration-200;
+  }
+  .form-input-group input:focus + label,
+  .form-input-group textarea:focus + label,
+  .form-input-group select:focus + label,
+  .form-input-group input:not(:placeholder-shown) + label,
+  .form-input-group textarea:not(:placeholder-shown) + label {
+    @apply top-1.5 text-xs;
+  }
+  .form-input-group input:focus + label,
+  .form-input-group textarea:focus + label,
+  .form-input-group select:focus + label {
+    @apply text-secnd;
+  }
+
+  /* Estado bloqueado / deshabilitado de formulario */
+  .form-input-group.is-locked input,
+  .form-input-group.is-locked textarea,
+  .form-input-group.is-locked select {
+    @apply cursor-not-allowed border-boldhover/30 text-auxwhite/60;
+  }
+  .form-input-group.is-locked label {
+    @apply text-auxwhite/40;
+  }
+
+  /* Calendario de reservas */
+  .calendar-days-grid {
+    @apply grid grid-cols-7 gap-5 sm:gap-1 text-center;
+  }
+  .calendar-day {
+    @apply flex items-center justify-center aspect-square rounded-lg cursor-pointer text-lg lg:text-base transition-colors hover:bg-white/10;
+  }
+  .calendar-day.today {
+    @apply border border-aux;
+  }
+  .calendar-day.day-disabled {
+    @apply text-boldhover cursor-not-allowed opacity-40;
+  }
+
+  /* Ocultar barra de desplazamiento */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Reproductor de vídeo (Plyr) y ajustes de proporciones */
+  .plyr__poster {
+    background-size: cover !important;
+    background-position: center !important;
+  }
+  .plyr,
+  .plyr__video-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  /* Mantiene los vídeos verticales completos sin recortar en pantalla completa */
+  .plyr--fullscreen-active video {
+    object-fit: contain !important;
+  }
+
+  /* Rueda vertical de elementos */
+  .animate-wheel {
+    animation: vertical-wheel 7.5s linear infinite;
+  }
+  .animate-wheel:hover {
+    animation-play-state: paused;
+  }
+}
