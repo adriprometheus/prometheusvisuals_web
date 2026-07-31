@@ -37,6 +37,7 @@ export async function sendContactNotification(data) {
       <p><strong>Empresa:</strong> ${escapeHtml(data.empresa)}</p>
       <p><strong>Web:</strong> ${data.web ? escapeHtml(data.web) : "No especificada"}</p>
       <p><strong>Asunto:</strong> ${escapeHtml(data.asunto)}</p>
+      <p><strong>¿Cómo nos conoció?:</strong> ${escapeHtml(data.comoConociste)}</p>
       <p><strong>Mensaje:</strong><br/>${data.mensaje ? escapeHtml(data.mensaje).replace(/\n/g, "<br/>") : "Sin mensaje adicional"}</p>
     `,
   });

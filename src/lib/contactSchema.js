@@ -12,6 +12,10 @@ export const contactSchema = z.discriminatedUnion("contactoTipo", [
     empresa: z.string().trim().min(1, "La empresa es obligatoria"),
     web: z.string().trim().optional(),
     asunto: z.string().trim().min(1, "El asunto es obligatorio"),
+    comoConociste: z
+      .string()
+      .trim()
+      .min(1, "Selecciona una opción"),
     mensaje: z.string().trim().optional(),
     politica: z
       .union([z.literal("on"), z.literal(true), z.literal("true")])
@@ -33,6 +37,10 @@ export const contactSchema = z.discriminatedUnion("contactoTipo", [
     empresa: z.string().trim().min(1, "La empresa es obligatoria"),
     web: z.string().trim().optional(),
     asunto: z.string().trim().min(1, "El asunto es obligatorio"),
+    comoConociste: z
+      .string()
+      .trim()
+      .min(1, "Selecciona una opción"),
     mensaje: z.string().trim().optional(),
     politica: z
       .union([z.literal("on"), z.literal(true), z.literal("true")])
