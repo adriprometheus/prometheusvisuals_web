@@ -13,6 +13,7 @@ const initialForm = {
   empresa: "",
   web: "",
   asunto: "",
+  comoConociste: "",
   mensaje: "",
   politica: false,
 };
@@ -43,6 +44,7 @@ export default function ContactForm() {
     if (!form.nombreCompleto.trim()) return false;
     if (!form.empresa.trim()) return false;
     if (!form.asunto.trim()) return false;
+    if (!form.comoConociste) return false;
     if (!form.politica) return false;
 
     if (form.contactoTipo === "correo") {
@@ -73,6 +75,7 @@ export default function ContactForm() {
       empresa: form.empresa,
       web: form.web,
       asunto: form.asunto,
+      comoConociste: form.comoConociste,
       mensaje: form.mensaje,
       politica: form.politica,
       ...(form.contactoTipo === "correo"
@@ -262,6 +265,33 @@ export default function ContactForm() {
             required
           />
         </Field>
+
+        {/* 5b. Cómo nos conociste */}
+<div className="flex flex-col gap-2">
+  <select
+    id="comoConociste"
+    value={form.comoConociste}
+    onChange={(e) => update("comoConociste", e.target.value)}
+    onBlur={() => markTouched("comoConociste")}
+    required
+    className={`w-full rounded-lg border border-auxwhite/50 bg-transparent px-3 py-3.75 outline-none focus:border-secnd cursor-pointer ${
+      form.comoConociste ? "text-secnd" : "text-neutral-400"
+    }`}
+  >
+    <option value="" disabled className="text-neutral-400">
+      ¿Qué te ha traído hasta aquí?
+    </option>
+    <option value="instagram" className="text-main">Os encontré en Google</option>
+    <option value="google" className="text-main">Alguien me habló muy bien de vosotros</option>
+    <option value="tiktok" className="text-main">Os vi en redes sociales</option>
+    <option value="anuncio" className="text-main">Hice click en uno de vuestros anuncios</option>
+    <option value="recomendacion" className="text-main">Nos vimos en un evento</option>
+    <option value="otro" className="text-main">Otro</option>
+  </select>
+  {touched.comoConociste && !form.comoConociste && (
+    <p className="text-xs text-red-400">Obligatorio</p>
+  )}
+</div>
 
         {/* 6. Textarea (Opcional) */}
         <Field label="¿Qué te gustaría hacer? (Opcional)">

@@ -23,7 +23,7 @@ export default function ServicesPage() {
         <span className="text-xs font-mono uppercase tracking-widest text-neutral-500">
           PROMETHEUS VISUALS — MALLORCA
         </span>
-        <h1 className="text-[1.33rem] sm:text-6xl font-bold tracking-tight text-white mt-4 leading-tight">
+        <h1 className="text-[1.30rem] sm:text-6xl font-bold tracking-tight text-white mt-4 leading-tight">
           SERVICIOS DE PRODUCCIÓN AUDIOVISUAL Y CRECIMIENTO DIGITAL
         </h1>
         <p className="mt-6 text-base sm:text-lg  text-neutral-400 max-w-3xl mx-auto leading-relaxed">

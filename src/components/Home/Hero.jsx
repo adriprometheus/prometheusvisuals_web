@@ -13,7 +13,7 @@ export default function Hero() {
   });
 
   // Escritorio (sin cambios, ya te gusta cómo queda)
-  const videoTop = useTransform(scrollYProgress, [0, 0.5], ["58%", "0%"]);
+  const videoTop = useTransform(scrollYProgress, [0, 0.5], ["30%", "0%"]);
   const videoSide = useTransform(scrollYProgress, [0, 0.5], ["6%", "0%"]);
   const videoBottom = useTransform(scrollYProgress, [0, 0.5], ["6%", "0%"]);
   const videoRadius = useTransform(scrollYProgress, [0, 0.5], [28, 0]);
@@ -30,7 +30,7 @@ export default function Hero() {
             <h1 className="mb-4 font-mono text-xs uppercase tracking-widest text-neutral-400">
               Producción audiovisual & gestión de redes sociales en Mallorca
             </h1>
-            <span className="max-w-7xl text-5xl leading-tight tracking-tight text-white lg:text-7xl xl:text-8xl font-[family-name:var(--font-bebas)]">
+            <span className="max-w-12xl text-5xl leading-tight tracking-tight text-white lg:text-7xl xl:text-8xl font-[family-name:var(--font-bebas)]">
               MIENTRAS LO PIENSAS, OTROS TE ADELANTAN
             </span>
           </div>

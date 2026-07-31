@@ -41,34 +41,9 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
             <div className="bg-white/5 backdrop-blur-lg border border-orange-500/50 rounded-3xl p-8 space-y-3 transition-all duration-300 hover:border-orange-500/40">
-              <h2 className="text-xl font-bold text-white">El Origen</h2>
+              <h2 className="text-xl font-bold text-white">Nuestro Objetivo</h2>
               <p className="text-sm text-neutral-400 text-justify leading-relaxed">
-                Prometheus Visuals surge de la pasión compartida por el cine, la
-                fotografía de autor y el marketing de resultados. Marc Pons y
-                Jordi Jiménez unieron fuerzas para ofrecer una solución integral
-                que abarca desde la preproducción técnica hasta la captura en
-                sistemas profesionales de cámara híbrida.
-              </p>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-lg border border-orange-500/50 rounded-3xl p-8 space-y-3 transition-all duration-300 hover:border-orange-500/40">
-              <h2 className="text-xl font-bold text-white">Nuestra Filosofía</h2>
-              <p className="text-sm text-neutral-400 text-justify leading-relaxed">
-                Huir del contenido genérico de relleno. Cada plano, etalonaje de
-                color y texto publicitario está diseñado estratégicamente para
-                captar la atención en los primeros segundos y generar un vínculo
-                auténtico con tu público objetivo.
-              </p>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-lg border border-orange-500/50 rounded-3xl p-8 space-y-3 transition-all duration-300 hover:border-orange-500/40">
-              <h2 className="text-xl font-bold text-white">¿Hacia dónde nos dirigimos?</h2>
-              <p className="text-sm text-neutral-400 text-justify leading-relaxed">
-                Consolidarnos como la agencia audiovisual y de estrategia digital
-                de referencia en Mallorca para marcas locales e internacionales.
-                Acompañamos a nuestros clientes en rodajes presenciales, curaduría
-                estética de perfil y optimización continua de campañas
-                publicitarias en Meta Ads.
+                Crear contenido que no solo se vea bien, sino que consiga resultados. Cada idea, cada plano y cada campaña tienen un propósito: captar la atención, transmitir el valor de tu marca y convertir ese interés en clientes. Porque para nosotros, la creatividad solo tiene sentido cuando impulsa el crecimiento de tu negocio.
               </p>
             </div>
           </div>
@@ -84,7 +59,7 @@ export default function AboutPage() {
           <div className="w-full lg:h-full lg:col-span-4 xl:col-span-3 lg:col-start-3 xl:col-start-4 relative flex flex-col min-h-0">
             <div className="lg:hidden text-center mb-8 shrink-0">
               <h2 className="text-3xl font-black text-neutral-200 tracking-wider uppercase">
-                El Equipo
+                EQUIPO
               </h2>
             </div>
 
