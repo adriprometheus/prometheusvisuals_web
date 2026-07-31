@@ -281,12 +281,12 @@ export default function ContactForm() {
     <option value="" disabled className="text-neutral-400">
       ¿Qué te ha traído hasta aquí?
     </option>
-    <option value="instagram" className="text-main">Os encontré en Google</option>
-    <option value="google" className="text-main">Alguien me habló muy bien de vosotros</option>
-    <option value="tiktok" className="text-main">Os vi en redes sociales</option>
-    <option value="anuncio" className="text-main">Hice click en uno de vuestros anuncios</option>
-    <option value="recomendacion" className="text-main">Nos vimos en un evento</option>
-    <option value="otro" className="text-main">Otro</option>
+    <option value="Os encontré en Google" className="text-main">Os encontré en Google</option>
+    <option value="Alguien me habló muy bien de vosotros" className="text-main">Alguien me habló muy bien de vosotros</option>
+    <option value="Os vi en redes sociales" className="text-main">Os vi en redes sociales</option>
+    <option value="Hice click en uno de vuestros anuncios" className="text-main">Hice click en uno de vuestros anuncios</option>
+    <option value="Nos vimos en un evento" className="text-main">Nos vimos en un evento</option>
+    <option value="Otro" className="text-main">Otro</option>
   </select>
   {touched.comoConociste && !form.comoConociste && (
     <p className="text-xs text-red-400">Obligatorio</p>
