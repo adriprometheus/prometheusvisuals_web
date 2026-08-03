@@ -4,8 +4,8 @@ export const clients = [
   { file: "Iceberg_logo", alt: "Logo Iceberg" },
   { file: "Jardins_Llevant_logo", alt: "Logo Jardins Llevant" },
   { file: "Limpiezas_Mallorca_logo", alt: "Logo Limpiezas Mallorca" },
-  { file: "Los_Rafaeles_logo", alt: "Logo Los Rafaeles" },
-  { file: "Petit_Hotel_Sant_Miquel_logo", alt: "Logo Petit Hotel Sant Miquel" },
+  { file: "Los_Rafaeles_logo", alt: "Logo Los Rafaeles", dark: true },
+  { file: "Petit_Hotel_Sant_Miquel_logo", alt: "Logo Petit Hotel Sant Miquel", dark: true },
   { file: "Sea_Riders_logo", alt: "Logo Sea Riders" },
   { file: "Serveis_Llevant_logo", alt: "Logo Serveis Llevant" },
   { file: "SmartFish_Delivery_logo", alt: "Logo SmartFish Delivery" },
@@ -14,5 +14,5 @@ export const clients = [
   { file: "Speed_Club_logo", alt: "Logo Speed Club" },
   { file: "Voltic_logo", alt: "Logo Voltic" },
   { file: "Wabi_Sabi_beach", alt: "Logo Wabi Sabi beach" },
-  { file: "Wiongo_Robotics_logo", alt: "Logo Wiongo Robotics" },
+  { file: "Wiongo_Robotics_logo", alt: "Logo Wiongo Robotics", dark: true },
 ];
