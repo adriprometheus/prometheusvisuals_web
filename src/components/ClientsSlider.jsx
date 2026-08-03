@@ -68,7 +68,7 @@ function LogoCard({ client }) {
           alt={client.alt}
           fill
           sizes="(max-width: 768px) 144px, 176px"
-          className="object-contain filter grayscale brightness-125 contrast-200 invert-[0.85] opacity-60 t"
+          className="object-contain filter brightness-125 opacity-60 t"
           priority // Ayuda a que las dimensiones se calculen inmediatamente al cargar la página
         />
       </div>
