@@ -1,6 +1,6 @@
 export const plans = [
   {
-    name: "PACK CREATIVO",
+    name: "PACK VISUAL",
     target: "Objetivo: Mejora Estética",
     price: "940,00 €",
     period: "+ IVA / mes",
@@ -20,9 +20,9 @@ export const plans = [
     accent: "green",
     badge: true,
     features: [
-      "Todas las ventajas del PACK CREATIVO sumadas a la potencia del PACK PROMETHEUS",
+      "Plus de creatividad con mayor presencia en RRSS",
       "Diseño gráfico",
-      "Meta Ads (incluye 200€ de inversión publicitaria)",
+      "Meta Ads (El precio incluye 200€ de inversión publicitaria)",
     ],
   },
   {

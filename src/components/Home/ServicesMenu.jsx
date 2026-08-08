@@ -14,9 +14,7 @@ export default function ServicesMenu() {
           {/* Tarjeta 1 */}
           <div className="bg-white/5 backdrop-blur-lg border border-orange-500/20 rounded-3xl p-8 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-orange-500/40">
             <div>
-              <span className="text-xs font-mono text-neutral-500">
-                01 / PRODUCCIÓN
-              </span>
+              
               <h3 className="text-lg font-bold text-white mt-2 mb-4">
                 Producción audiovisual
               </h3>
@@ -36,9 +34,7 @@ export default function ServicesMenu() {
           {/* Tarjeta 2 */}
           <div className="bg-white/5 backdrop-blur-lg border border-orange-500/20 rounded-3xl p-8 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-orange-500/40">
             <div>
-              <span className="text-xs font-mono text-neutral-500">
-                02 / REDES SOCIALES
-              </span>
+              
               <h3 className="text-lg font-bold text-white mt-2 mb-4">
                 Gestión de Redes Sociales
               </h3>
@@ -59,9 +55,7 @@ export default function ServicesMenu() {
           {/* Tarjeta 3 */}
           <div className="bg-white/5 backdrop-blur-lg border border-orange-500/20 rounded-3xl p-8 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-orange-500/40">
             <div>
-              <span className="text-xs font-mono text-neutral-500">
-                03 / PUBLI & ADS
-              </span>
+              
               <h3 className="text-lg font-bold text-white mt-2 mb-4">
                 Campañas Meta Ads
               </h3>
