@@ -43,7 +43,7 @@ export const metadata = {
     "max-video-preview": -1,
   },
   icons: {
-    icon: "https://www.prometheusvisuals.com/logos/Prometheus-openGraphcard-logo.png",
+    icon: "https://www.prometheusvisuals.com/logos/Prometheus-logo.png",
   },
   openGraph: {
     type: "website",
