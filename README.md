@@ -31,7 +31,7 @@ src/
 │   ├── ClientsSlider.jsx       # Marquee de logos con drag/inercia (client component)
 │   ├── BookingCalendar.jsx     # Calendario + modal de reserva, consume /api/booking
 │   ├── ContactForm.jsx         # Formulario multi-paso, consume /api/contact
-│   ├── PhotoGallery.jsx        # Galería masonry + modal ampliado
+│   ├── Gallery.jsx        # Galería masonry + modal ampliado
 │   └── VideoGallery.jsx        # Grid de vídeos + modal de reproducción
 │
 ├── data/

@@ -19,13 +19,11 @@ export default function Navbar() {
   const pathname = usePathname();
   const isHome = pathname === "/";
 
-  const visibleLinks = LINKS.filter((link) => link.href !== pathname);
+    const visibleLinks = LINKS.filter((link) => link.href !== pathname);
+  const mostrarFondoScrolled = !isHome || isScrolled;
 
   useEffect(() => {
-    if (!isHome) {
-      setIsScrolled(true);
-      return;
-    }
+    if (!isHome) return;
 
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -54,8 +52,8 @@ export default function Navbar() {
           mx-auto max-w-5xl w-full h-16 sm:h-20 flex items-center justify-between 
           rounded-full px-6 sm:px-10 shadow-2xl pointer-events-auto
           transition-all duration-500 ease-in-out
-          ${
-            isScrolled
+                    ${
+            mostrarFondoScrolled
               ? "bg-main/60 backdrop-blur-xl border border-secnd/10"
               : "bg-transparent border-transparent shadow-none"
           }
@@ -68,7 +66,7 @@ export default function Navbar() {
           // el fondo se queda "congelado").
           transform: "translateZ(0)",
           WebkitTransform: "translateZ(0)",
-          WebkitBackdropFilter: isScrolled ? "blur(24px)" : "none",
+                    WebkitBackdropFilter: mostrarFondoScrolled ? "blur(24px)" : "none",
           willChange: "background-color, backdrop-filter",
         }}
       >

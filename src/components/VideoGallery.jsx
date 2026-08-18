@@ -128,13 +128,15 @@ export default function VideoGallery() {
     setActiveVideo(null);
   }, []);
 
-  // Manejo de URL ?videoId=
+    // Manejo de URL ?videoId=
   useEffect(() => {
     const videoIdStr = searchParams.get("videoId");
     if (videoIdStr) {
       const id = parseInt(videoIdStr, 10);
       const match = videos.find((v) => v.id === id);
       if (match) {
+        // Lectura intencional de la URL al cargar para abrir el vídeo correspondiente
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         openVideo(match);
         router.replace("/films", { scroll: false });
       }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { fotos } from "@/data/fotos";
@@ -13,7 +13,10 @@ export default function PhotoGallery() {
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
-  const fotosOrdenadas = [...fotos].sort((a, b) => b.id - a.id);
+  const fotosOrdenadas = useMemo(
+  () => [...fotos].sort((a, b) => b.id - a.id),
+  [],
+);
 
   const openModal = useCallback((index) => {
     setCurrentIndex(index);
@@ -30,27 +33,29 @@ export default function PhotoGallery() {
     setCurrentIndex((prev) =>
       prev === 0 ? fotosOrdenadas.length - 1 : prev - 1,
     );
-  }, []);
+  }, [fotosOrdenadas.length]);
 
-  const showNext = useCallback((e) => {
+    const showNext = useCallback((e) => {
     e?.stopPropagation();
     setCurrentIndex((prev) =>
       prev === fotosOrdenadas.length - 1 ? 0 : prev + 1,
     );
-  }, []);
+  }, [fotosOrdenadas.length]);
 
   // Apertura desde URL (?fotoId=...)
-  useEffect(() => {
+    useEffect(() => {
     const fotoIdStr = searchParams.get("fotoId");
     if (fotoIdStr) {
       const id = parseInt(fotoIdStr, 10);
       const index = fotosOrdenadas.findIndex((f) => f.id === id);
       if (index !== -1) {
+        // Lectura intencional de la URL al cargar para abrir el modal correspondiente
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         openModal(index);
         router.replace("/proyectos", { scroll: false });
       }
     }
-  }, [searchParams, openModal, router]);
+  }, [searchParams, openModal, router, fotosOrdenadas]);
 
   // Teclado
   useEffect(() => {
