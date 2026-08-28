@@ -60,20 +60,7 @@ export default function Pricing() {
 
               {/* Sección de Precio con "Desde" */}
               <div className="mb-8 border-b border-white/5 pb-6">
-                <span className="block text-[11px] font-mono uppercase tracking-widest text-neutral-400 mb-1">
-                  DESDE
-                </span>
                 <div className="flex items-baseline gap-2">
-                  <span
-                    className={`font-extrabold text-white ${
-                      plan.price.length > 10 ? "text-2xl" : "text-4xl"
-                    }`}
-                  >
-                    {plan.price}
-                  </span>
-                  <span className="text-xs text-neutral-500">
-                    {plan.period}
-                  </span>
                 </div>
               </div>
 

@@ -2,8 +2,6 @@ export const plans = [
   {
     name: "PACK VISUAL",
     target: "Objetivo: Mejora Estética",
-    price: "940,00 €",
-    period: "+ IVA / mes",
     accent: "orange",
     badge: false,
     features: [
