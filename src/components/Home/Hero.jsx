@@ -63,7 +63,7 @@ export default function Hero() {
 
       <div className="hidden flex-row justify-center gap-4 bg-black px-6 py-16 md:flex">
         <ScrollToPricing className="rounded-full bg-white px-8 py-4 text-center font-semibold text-black shadow-lg transition-all duration-300 hover:scale-105 hover:bg-neutral-200">
-          CONSULTA NUESTROS PRECIOS
+          CONSULTA NUESTROS PLANES
         </ScrollToPricing>
         <ScrollToContact className="rounded-full border border-white/30 bg-black/20 px-8 py-4 text-center font-semibold text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white hover:text-black">
           ¿HABLAMOS DE TU PROYECTO?
