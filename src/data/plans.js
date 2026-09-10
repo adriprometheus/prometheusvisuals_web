@@ -31,9 +31,9 @@ export const plans = [
     accent: null,
     badge: false,
     features: [
-      "Sesión de grabación y fotografías profesional",
+      "Sesión de grabación y fotografía profesional",
       "Edición de alta calidad",
-      "recomendación estratégica",
+      "Recomendación estratégica",
     ],
   },
 ];
