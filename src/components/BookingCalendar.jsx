@@ -271,7 +271,7 @@ export default function BookingCalendar() {
                     : "block opacity-100"
                 }`}
             >
-              <span className="text-xs text-center uppercase tracking-widest text-neutral-500 font-semibold mb-2 block">
+              <span className="text-xs text-center uppercase tracking-widest text-neutral-400 font-semibold mb-2 block">
                 RESERVA DIRECTA
               </span>
               <h2 className="text-1xl text-center font-bold text-white tracking-tight leading-tight">
@@ -314,7 +314,7 @@ export default function BookingCalendar() {
                   </div>
 
                   {/* Días de la semana */}
-                  <div className="mt-6 grid grid-cols-7 gap-1 text-center text-xs font-semibold uppercase tracking-wider text-neutral-500">
+                  <div className="mt-6 grid grid-cols-7 gap-1 text-center text-xs font-semibold uppercase tracking-wider text-neutral-400">
                     {["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"].map(
                       (d) => (
                         <p key={d}>{d}</p>
@@ -382,7 +382,7 @@ export default function BookingCalendar() {
                     </div>
                     <button type="button"
                       onClick={() => goToMonth(date)}
-                      className="text-xs text-neutral-500 hover:text-white border border-white/10 px-3 py-1.5 rounded-full transition-colors focus:outline-none"
+                      className="text-xs text-neutral-400 hover:text-white border border-white/10 px-3 py-1.5 rounded-full transition-colors focus:outline-none"
                     >
                       Cancelar
                     </button>
@@ -391,7 +391,7 @@ export default function BookingCalendar() {
                   {loadingSlots ? (
                     <div className="py-12 flex flex-col items-center gap-4">
                       <div className="w-5 h-5 border-2 border-white/10 border-t-white rounded-full animate-spin" />
-                      <p className="text-xs text-neutral-500 tracking-wider uppercase">
+                      <p className="text-xs text-neutral-400 tracking-wider uppercase">
                         Buscando huecos libres...
                       </p>
                     </div>

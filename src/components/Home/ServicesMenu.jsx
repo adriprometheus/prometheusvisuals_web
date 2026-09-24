@@ -34,7 +34,7 @@ export default function ServicesMenu() {
     <section className="bg-neutral-950/40 border-y border-white/5 py-16 sm:py-24">
       <div className="mx-auto max-w-4xl px-6">
         <div className="mb-12 sm:mb-16">
-          <span className="block text-center text-xs uppercase tracking-widest text-neutral-500 font-semibold">
+          <span className="block text-center text-xs uppercase tracking-widest text-neutral-400 font-semibold">
   NUESTROS SERVICIOS
 </span>
           <h2 className="text-[1.74rem] sm:text-4xl font-bold tracking-tight text-white mt-2 text-center">
@@ -47,29 +47,26 @@ export default function ServicesMenu() {
             const isOpen = openIndex === index;
             return (
               <div key={service.num} className="border-b border-white/10">
-                <button
-                  type="button"
+                <button type="button"
                   onClick={() => setOpenIndex(isOpen ? -1 : index)}
                   aria-expanded={isOpen}
                   className="group flex w-full items-start sm:items-center justify-between gap-4 sm:gap-6 py-6 sm:py-8 text-left"
                 >
                   <span className="flex items-start sm:items-baseline gap-3 sm:gap-6 min-w-0">
-                    <span
-                      className={`font-[family-name:var(--font-bebas)] text-3xl sm:text-5xl leading-none tracking-wide transition-colors ${
+                    <span className={`font-[family-name:var(--font-bebas)] text-3xl sm:text-5xl leading-none tracking-wide transition-colors ${
                         isOpen
                           ? "text-white"
-                          : "text-neutral-500 group-hover:text-neutral-300"
+                          : "text-neutral-400 group-hover:text-neutral-200"
                       }`}
                     >
                       {service.title}
                     </span>
                   </span>
 
-                  <span
-                    className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-all duration-300 ${
+                  <span className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-all duration-300 ${
                       isOpen
                         ? "rotate-45 border-orange-500 text-orange-500"
-                        : "border-white/20 text-neutral-500 group-hover:border-white/40 group-hover:text-white"
+                        : "border-white/20 text-neutral-400 group-hover:border-white/40 group-hover:text-white"
                     }`}
                   >
                     <span className="absolute h-px w-3 bg-current" />
@@ -77,8 +74,7 @@ export default function ServicesMenu() {
                   </span>
                 </button>
 
-                <div
-                  className={`grid transition-[grid-template-rows] duration-500 ease-out ${
+                <div className={`grid transition-[grid-template-rows] duration-500 ease-out ${
                     isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                   }`}
                 >

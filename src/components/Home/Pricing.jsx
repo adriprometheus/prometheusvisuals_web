@@ -17,7 +17,7 @@ export default function Pricing() {
   return (
     <section id="precios" className="mx-auto max-w-7xl px-6 py-10 sm:py-10">
       <div className="text-center mb-16">
-        <span className="text-xs uppercase tracking-widest text-neutral-500 font-semibold">
+        <span className="text-xs uppercase tracking-widest text-neutral-400 font-semibold">
           TARIFAS Y PLANES
         </span>
         <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-white mt-2">
@@ -31,8 +31,7 @@ export default function Pricing() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
         {plans.map((plan, idx) => (
-          <div
-            key={idx}
+          <div key={idx}
             className={`relative rounded-4xl p-8 sm:p-10 flex flex-col justify-between border transition-all duration-300 ${
               plan.accent
                 ? accentStyles[plan.accent].card
@@ -40,8 +39,7 @@ export default function Pricing() {
             }`}
           >
             {plan.badge && (
-              <span
-                className={`absolute -top-3 right-8 text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full ${accentStyles[plan.accent].badge}`}
+              <span className={`absolute -top-3 right-8 text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full ${accentStyles[plan.accent].badge}`}
               >
                 Más popular
               </span>
@@ -67,14 +65,12 @@ export default function Pricing() {
               <ul className="space-y-4 text-xs text-neutral-300 mb-8">
                 {plan.features.map((feat, fIdx) => (
                   <li key={fIdx} className="flex items-start gap-3">
-                    <svg
-                      className="w-4 h-4 text-white shrink-0 mt-0.5"
+                    <svg className="w-4 h-4 text-white shrink-0 mt-0.5"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
-                      <path
-                        strokeLinecap="round"
+                      <path strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="2"
                         d="M5 13l4 4L19 7"

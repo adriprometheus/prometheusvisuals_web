@@ -22,7 +22,7 @@ export default function InteractiveGallery() {
       <div className="mx-auto max-w-5xl px-6">
         <div className="flex flex-col sm:flex-row justify-between items-center mb-12 gap-4">
           <div>
-            <span className="text-xs uppercase tracking-widest text-neutral-500 font-semibold">
+            <span className="text-xs uppercase tracking-widest text-neutral-400 font-semibold">
               NUESTRO ARTE
             </span>
             <h2 className="text-3xl font-bold text-white mt-1">
