@@ -21,8 +21,7 @@ export default function Hero() {
   return (
     <section className="relative w-full bg-black">
       {/* ================= ESCRITORIO (igual que ya tienes) ================= */}
-      <div
-        ref={containerRef}
+      <div ref={containerRef}
         className="relative hidden h-[240vh] w-full md:block"
       >
         <div className="sticky top-0 h-screen w-full overflow-hidden">
@@ -46,8 +45,7 @@ export default function Hero() {
             }}
             className="z-20 overflow-hidden shadow-2xl"
           >
-            <video
-              autoPlay
+            <video autoPlay
               muted
               loop
               playsInline
@@ -55,7 +53,7 @@ export default function Hero() {
               className="h-full w-full object-cover"
             >
               <source src="/videos/Home-Main-Vid.webm" type="video/webm" />
-              <source src="/videos/Home-Main-Vid.mp4" type="video/mp4" />
+              <source src="/videos/fallback/Home-Main-Vid.mp4" type="video/mp4" />
             </video>
           </motion.div>
         </div>
@@ -93,8 +91,7 @@ export default function Hero() {
               (que se ha quedado fijo arriba). En cuanto el vídeo lo cubre
               del todo, el enunciado se suelta solo y sigue el scroll normal. */}
           <div className="relative z-20 aspect-video w-full shadow-2xl">
-            <video
-              autoPlay
+            <video autoPlay
               muted
               loop
               playsInline
@@ -102,7 +99,7 @@ export default function Hero() {
               className="h-full w-full object-cover"
             >
               <source src="/videos/Home-Main-Vid.webm" type="video/webm" />
-              <source src="/videos/Home-Main-Vid.mp4" type="video/mp4" />
+              <source src="/videos/fallback/Home-Main-Vid.mp4" type="video/mp4" />
             </video>
           </div>
         </div>

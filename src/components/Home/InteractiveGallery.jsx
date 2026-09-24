@@ -32,8 +32,7 @@ export default function InteractiveGallery() {
 
           {/* Selector de Pestañas */}
           <div className="flex gap-2 bg-neutral-900/60 p-1 rounded-full border border-white/5">
-            <button
-              onClick={() => setActiveTab("fotos")}
+            <button onClick={() => setActiveTab("fotos")}
               className={`px-6 py-2 rounded-full text-xs font-medium transition-all cursor-pointer ${
                 activeTab === "fotos"
                   ? "bg-white text-black"
@@ -42,8 +41,7 @@ export default function InteractiveGallery() {
             >
               Fotografía
             </button>
-            <button
-              onClick={() => setActiveTab("videos")}
+            <button onClick={() => setActiveTab("videos")}
               className={`px-6 py-2 rounded-full text-xs font-medium transition-all cursor-pointer ${
                 activeTab === "videos"
                   ? "bg-white text-black"
@@ -104,7 +102,7 @@ export default function InteractiveGallery() {
             href={activeTab === "fotos" ? "/proyectos" : "/films"}
             className="text-xs font-medium tracking-widest text-neutral-400 hover:text-white transition-colors flex items-center gap-2"
           >
-            VER PORTFOLIO COMPLETO <span className="text-neutral-600">✦</span>
+            VER PORTFOLIO COMPLETO <span aria-hidden="true" className="text-neutral-400">✦</span>
           </Link>
         </div>
       </div>

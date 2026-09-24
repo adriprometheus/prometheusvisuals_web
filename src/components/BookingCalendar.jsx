@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useRef, useEffect } from "react";
+import { cloneElement, useId, useState, useMemo, useRef, useEffect } from "react";
 
 function isDayDisabled(day, month, year) {
   const checkDate = new Date(year, month, day);
@@ -24,12 +24,24 @@ function toDateStr(year, month, day) {
   return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 }
 
+// Envuelve un input/textarea y le asocia su <label> con un id único.
+// IMPORTANTE: el <label> debe seguir justo DESPUÉS del input, porque el CSS
+// (globals.css: `input:focus + label`) depende de que sean hermanos contiguos.
 function Field({ label, error, children }) {
+  const id = useId();
   return (
     <div className="form-input-group">
-      {children}
-      <label>{label}</label>
-      {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
+      {cloneElement(children, {
+        id,
+        "aria-invalid": error ? true : undefined,
+        "aria-describedby": error ? `${id}-error` : undefined,
+      })}
+      <label htmlFor={id}>{label}</label>
+      {error && (
+        <p id={`${id}-error`} className="mt-1 text-xs text-red-400">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
@@ -244,18 +256,15 @@ export default function BookingCalendar() {
           animar de forma rara, porque no hay ningún salto que corregir. */}
       <div className="grid w-full">
         {/* FLUJO: texto / calendario / horas */}
-        <div
-          className={`col-start-1 row-start-1 min-w-0 transition-opacity duration-300
+        <div className={`col-start-1 row-start-1 min-w-0 transition-opacity duration-300
             ${success ? "opacity-0 pointer-events-none" : "opacity-100"}`}
         >
-          <div
-            className={`grid grid-cols-1 gap-y-6 lg:gap-x-0
+          <div className={`grid grid-cols-1 gap-y-6 lg:gap-x-0
               lg:transition-[grid-template-columns] lg:duration-500 lg:ease-out
               ${isBookingActive ? "lg:grid-cols-[0fr_7fr_5fr]" : "lg:grid-cols-[5fr_7fr_0fr]"}`}
           >
             {/* COLUMNA TEXTO. */}
-            <div
-              className={`min-w-0 lg:self-start lg:overflow-hidden flex flex-col justify-start transition-opacity duration-300
+            <div className={`min-w-0 lg:self-start lg:overflow-hidden flex flex-col justify-start transition-opacity duration-300
                 ${
                   isBookingActive
                     ? "hidden lg:block lg:opacity-0 lg:pointer-events-none"
@@ -275,8 +284,7 @@ export default function BookingCalendar() {
             </div>
 
             {/* COLUMNA CALENDARIO. */}
-            <div
-              className={`min-w-0 lg:self-start lg:transition-[margin] lg:duration-500 lg:ease-out
+            <div className={`min-w-0 lg:self-start lg:transition-[margin] lg:duration-500 lg:ease-out
                 ${
                   isBookingActive
                     ? "lg:ml-0 lg:mr-8 xl:mr-12"
@@ -287,8 +295,7 @@ export default function BookingCalendar() {
                 <div>
                   {/* Controles del mes */}
                   <div className="flex items-center justify-between px-1">
-                    <button
-                      onClick={() => goToMonth(new Date(year, month - 1, 1))}
+                    <button onClick={() => goToMonth(new Date(year, month - 1, 1))}
                       disabled={prevDisabled}
                       className="px-4 py-2 text-xl disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed hover:bg-white/10 rounded-xl transition-colors"
                       aria-label="Mes anterior"
@@ -298,8 +305,7 @@ export default function BookingCalendar() {
                     <p className="capitalize font-medium text-white tracking-wide">
                       {monthLabel} {year}
                     </p>
-                    <button
-                      onClick={() => goToMonth(new Date(year, month + 1, 1))}
+                    <button onClick={() => goToMonth(new Date(year, month + 1, 1))}
                       className="px-4 py-2 text-xl cursor-pointer hover:bg-white/10 rounded-xl transition-colors"
                       aria-label="Mes siguiente"
                     >
@@ -333,16 +339,17 @@ export default function BookingCalendar() {
                         selectedDate.year === year;
 
                       return (
-                        <div
+                        <button type="button"
                           key={idx}
-                          onClick={() => !disabled && handleDayClick(day)}
+                          disabled={disabled}
+                          onClick={() => handleDayClick(day)}
                           className={`calendar-day 
                             ${isToday ? "today" : ""} 
                             ${disabled ? "day-disabled" : ""} 
                             ${isSelected && isBookingActive ? "bg-white text-black font-bold rounded-xl" : ""}`}
                         >
                           {day}
-                        </div>
+                        </button>
                       );
                     })}
                   </div>
@@ -352,8 +359,7 @@ export default function BookingCalendar() {
 
             {/* COLUMNA HORAS. */}
             {/* COLUMNA HORAS Y FORMULARIO */}
-            <div
-              ref={hoursPanelRef}
+            <div ref={hoursPanelRef}
               className={`min-w-0 lg:self-start lg:overflow-hidden transition-opacity duration-300
                 ${
                   isBookingActive
@@ -374,8 +380,7 @@ export default function BookingCalendar() {
                         Reunión de consultoría de 60 minutos
                       </p>
                     </div>
-                    <button
-                      type="button"
+                    <button type="button"
                       onClick={() => goToMonth(date)}
                       className="text-xs text-neutral-500 hover:text-white border border-white/10 px-3 py-1.5 rounded-full transition-colors focus:outline-none"
                     >
@@ -393,8 +398,7 @@ export default function BookingCalendar() {
                   ) : (
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
                       {slots.map((slot) => (
-                        <button
-                          key={slot.time}
+                        <button key={slot.time}
                           type="button"
                           disabled={!slot.available}
                           onClick={() => setSelectedSlot(slot.time)}
@@ -410,8 +414,7 @@ export default function BookingCalendar() {
 
                   {/* FORMULARIO DE DATOS */}
                   {selectedSlot && (
-                    <form
-                      onSubmit={confirmBooking}
+                    <form onSubmit={confirmBooking}
                       noValidate
                       className="mt-6 flex flex-col gap-4 border-t border-white/10 pt-6 animate-fadeIn"
                     >
@@ -423,7 +426,8 @@ export default function BookingCalendar() {
                             : null
                         }
                       >
-                        <input
+                        <input name="nombre"
+                          autoComplete="name"
                           value={contact.name}
                           onChange={(e) =>
                             updateContact("name", e.target.value)
@@ -443,8 +447,9 @@ export default function BookingCalendar() {
                             : null
                         }
                       >
-                        <input
-                          type="email"
+                        <input type="email"
+                          name="email"
+                          autoComplete="email"
                           value={contact.email}
                           onChange={(e) =>
                             updateContact("email", e.target.value)
@@ -463,7 +468,7 @@ export default function BookingCalendar() {
                             : null
                         }
                       >
-                        <textarea
+                        <textarea name="motivo"
                           rows={2}
                           value={contact.reason}
                           onChange={(e) =>
@@ -476,8 +481,7 @@ export default function BookingCalendar() {
                       </Field>
 
                       {/* Honeypot anti-spam */}
-                      <input
-                        type="text"
+                      <input type="text"
                         name="website"
                         value={contact.website}
                         onChange={(e) =>
@@ -491,8 +495,7 @@ export default function BookingCalendar() {
 
                       {error && <p className="text-sm text-red-400">{error}</p>}
 
-                      <button
-                        type="submit"
+                      <button type="submit"
                         disabled={!isContactValid() || submitting}
                         className="mt-2 w-full py-4 rounded-full bg-white text-black font-bold text-xs sm:text-sm tracking-widest uppercase hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
                       >
@@ -507,8 +510,7 @@ export default function BookingCalendar() {
         </div>
 
         {/* PANTALLA DE ÉXITO. */}
-        <div
-          className={`col-start-1 row-start-1 min-w-0 transition-opacity duration-300
+        <div className={`col-start-1 row-start-1 min-w-0 transition-opacity duration-300
             ${success ? "opacity-100" : "opacity-0 pointer-events-none"}`}
         >
           <div className="w-full h-full min-h-105 bg-neutral-900/10 backdrop-blur-xl border border-white/5 rounded-[40px] py-10 px-10 text-center flex flex-col items-center justify-center">
@@ -524,8 +526,7 @@ export default function BookingCalendar() {
               directo. ¡Hablamos pronto!
             </p>
             {confirmedMeetLink && (
-              <a
-                href={confirmedMeetLink}
+              <a href={confirmedMeetLink}
                 target="_blank"
                 rel="noreferrer"
                 className="mt-6 text-sm underline text-white"

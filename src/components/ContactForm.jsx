@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { cloneElement, useId, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { countryCodes } from "@/data/countryCodes";
 
@@ -18,12 +18,24 @@ const initialForm = {
   politica: false,
 };
 
+// Envuelve un input/textarea y le asocia su <label> con un id único.
+// IMPORTANTE: el <label> debe seguir justo DESPUÉS del input, porque el CSS
+// (globals.css: `input:focus + label`) depende de que sean hermanos contiguos.
 function Field({ label, error, children }) {
+  const id = useId();
   return (
     <div className="form-input-group">
-      {children}
-      <label>{label}</label>
-      {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
+      {cloneElement(children, {
+        id,
+        "aria-invalid": error ? true : undefined,
+        "aria-describedby": error ? `${id}-error` : undefined,
+      })}
+      <label htmlFor={id}>{label}</label>
+      {error && (
+        <p id={`${id}-error`} className="mt-1 text-xs text-red-400">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
@@ -105,8 +117,7 @@ export default function ContactForm() {
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit}
+      <form onSubmit={handleSubmit}
         noValidate
         className="mx-auto flex w-full max-w-xl flex-col gap-6"
       >
@@ -123,7 +134,8 @@ export default function ContactForm() {
               : null
           }
         >
-          <input
+          <input name="nombreCompleto"
+            autoComplete="name"
             value={form.nombreCompleto}
             onChange={(e) => update("nombreCompleto", e.target.value)}
             onBlur={() => markTouched("nombreCompleto")}
@@ -138,8 +150,7 @@ export default function ContactForm() {
             ¿Cómo prefieres que te contactemos?
           </span>
           <div className="flex gap-2 bg-neutral-900/60 p-1 rounded-full border border-white/5 w-fit">
-            <button
-              type="button"
+            <button type="button"
               onClick={() => update("contactoTipo", "correo")}
               className={`px-6 py-2 rounded-full text-xs font-medium transition-all cursor-pointer ${
                 form.contactoTipo === "correo"
@@ -149,8 +160,7 @@ export default function ContactForm() {
             >
               Correo electrónico
             </button>
-            <button
-              type="button"
+            <button type="button"
               onClick={() => update("contactoTipo", "telf")}
               className={`px-6 py-2 rounded-full text-xs font-medium transition-all cursor-pointer ${
                 form.contactoTipo === "telf"
@@ -173,8 +183,9 @@ export default function ContactForm() {
                 : null
             }
           >
-            <input
-              type="email"
+            <input type="email"
+              name="correo"
+              autoComplete="email"
               value={form.correo}
               onChange={(e) => update("correo", e.target.value)}
               onBlur={() => markTouched("correo")}
@@ -184,7 +195,7 @@ export default function ContactForm() {
           </Field>
         ) : (
           <div className="flex items-start gap-2">
-            <select
+            <select name="prefijo"
               value={form.prefijo}
               onChange={(e) => update("prefijo", e.target.value)}
               aria-label="Prefijo telefónico"
@@ -192,8 +203,7 @@ export default function ContactForm() {
               required={form.contactoTipo === "telf"}
             >
               {countryCodes.map((c) => (
-                <option
-                  key={`${c.code}-${c.name}`}
+                <option key={`${c.code}-${c.name}`}
                   value={c.code}
                   className="text-main"
                 >
@@ -209,8 +219,9 @@ export default function ContactForm() {
                   : null
               }
             >
-              <input
-                type="tel"
+              <input type="tel"
+                name="telf"
+                autoComplete="tel-national"
                 value={form.telf}
                 onChange={(e) =>
                   update("telf", e.target.value.replace(/[^0-9]/g, ""))
@@ -232,7 +243,8 @@ export default function ContactForm() {
               touched.empresa && !form.empresa.trim() ? "Obligatorio" : null
             }
           >
-            <input
+            <input name="empresa"
+              autoComplete="organization"
               value={form.empresa}
               onChange={(e) => update("empresa", e.target.value)}
               onBlur={() => markTouched("empresa")}
@@ -242,8 +254,9 @@ export default function ContactForm() {
           </Field>
 
           <Field label="Sitio web (Opcional)">
-            <input
-              type="url"
+            <input type="url"
+              name="web"
+              autoComplete="url"
               value={form.web}
               onChange={(e) => update("web", e.target.value)}
               onBlur={handleWebBlur}
@@ -257,7 +270,7 @@ export default function ContactForm() {
           label="Asunto"
           error={touched.asunto && !form.asunto.trim() ? "Obligatorio" : null}
         >
-          <input
+          <input name="asunto"
             value={form.asunto}
             onChange={(e) => update("asunto", e.target.value)}
             onBlur={() => markTouched("asunto")}
@@ -267,35 +280,36 @@ export default function ContactForm() {
         </Field>
 
         {/* 5b. Cómo nos conociste */}
-<div className="flex flex-col gap-2">
-  <select
-    id="comoConociste"
-    value={form.comoConociste}
-    onChange={(e) => update("comoConociste", e.target.value)}
-    onBlur={() => markTouched("comoConociste")}
-    required
-    className={`w-full rounded-lg border border-auxwhite/50 bg-transparent px-3 py-3.75 outline-none focus:border-secnd cursor-pointer ${
-      form.comoConociste ? "text-secnd" : "text-neutral-400"
-    }`}
-  >
-    <option value="" disabled className="text-neutral-400">
-      ¿Qué te ha traído hasta aquí?
-    </option>
-    <option value="Os encontré en Google" className="text-main">Os encontré en Google</option>
-    <option value="Alguien me habló muy bien de vosotros" className="text-main">Alguien me habló muy bien de vosotros</option>
-    <option value="Os vi en redes sociales" className="text-main">Os vi en redes sociales</option>
-    <option value="Hice click en uno de vuestros anuncios" className="text-main">Hice click en uno de vuestros anuncios</option>
-    <option value="Nos vimos en un evento" className="text-main">Nos vimos en un evento</option>
-    <option value="Otro" className="text-main">Otro</option>
-  </select>
-  {touched.comoConociste && !form.comoConociste && (
-    <p className="text-xs text-red-400">Obligatorio</p>
-  )}
-</div>
+        <div className="flex flex-col gap-2">
+          <select id="comoConociste"
+            name="comoConociste"
+            aria-label="¿Qué te ha traído hasta aquí?"
+            value={form.comoConociste}
+            onChange={(e) => update("comoConociste", e.target.value)}
+            onBlur={() => markTouched("comoConociste")}
+            required
+            className={`w-full rounded-lg border border-auxwhite/50 bg-transparent px-3 py-3.75 outline-none focus:border-secnd cursor-pointer ${
+              form.comoConociste ? "text-secnd" : "text-neutral-400"
+            }`}
+          >
+            <option value="" disabled className="text-neutral-400">
+              ¿Qué te ha traído hasta aquí?
+            </option>
+            <option value="Os encontré en Google" className="text-main">Os encontré en Google</option>
+            <option value="Alguien me habló muy bien de vosotros" className="text-main">Alguien me habló muy bien de vosotros</option>
+            <option value="Os vi en redes sociales" className="text-main">Os vi en redes sociales</option>
+            <option value="Hice click en uno de vuestros anuncios" className="text-main">Hice click en uno de vuestros anuncios</option>
+            <option value="Nos vimos en un evento" className="text-main">Nos vimos en un evento</option>
+            <option value="Otro" className="text-main">Otro</option>
+          </select>
+          {touched.comoConociste && !form.comoConociste && (
+            <p className="text-xs text-red-400">Obligatorio</p>
+          )}
+        </div>
 
         {/* 6. Textarea (Opcional) */}
         <Field label="¿Qué te gustaría hacer? (Opcional)">
-          <textarea
+          <textarea name="mensaje"
             rows={4}
             value={form.mensaje}
             onChange={(e) => update("mensaje", e.target.value)}
@@ -305,9 +319,9 @@ export default function ContactForm() {
 
         {/* 7. Privacidad */}
         <div className="flex items-start gap-2 text-sm">
-          <input
-            type="checkbox"
+          <input type="checkbox"
             id="privacy-policy-chbx"
+            name="politica"
             checked={form.politica}
             onChange={(e) => update("politica", e.target.checked)}
             className="mt-1 cursor-pointer"
@@ -315,8 +329,7 @@ export default function ContactForm() {
           />
           <label htmlFor="privacy-policy-chbx" className="cursor-pointer">
             He leído y acepto la{" "}
-            <button
-              type="button"
+            <button type="button"
               onClick={() => dialogRef.current?.showModal()}
               className="cursor-pointer underline"
             >
@@ -326,8 +339,7 @@ export default function ContactForm() {
         </div>
 
         {/* Botón de envío único */}
-        <button
-          type="submit"
+        <button type="submit"
           disabled={!isFormValid() || submitting}
           className="cursor-pointer rounded-full bg-secnd py-3 font-medium text-main transition-colors disabled:cursor-not-allowed disabled:opacity-30"
         >
@@ -338,14 +350,12 @@ export default function ContactForm() {
       </form>
 
       {/* El componente <dialog> de la política se queda exactamente igual */}
-      <dialog
-        ref={dialogRef}
+      <dialog ref={dialogRef}
         className="privacy-modal max-w-lg rounded-2xl bg-projects p-6 text-secnd backdrop:bg-black/70"
       >
         {/* ... (Contenido del modal intacto) ... */}
         <div className="flex justify-end">
-          <button
-            type="button"
+          <button type="button"
             onClick={() => dialogRef.current?.close()}
             className="cursor-pointer text-2xl leading-none"
           >
@@ -360,8 +370,7 @@ export default function ContactForm() {
             cualquier momento.
           </p>
         </div>
-        <button
-          type="button"
+        <button type="button"
           onClick={() => dialogRef.current?.close()}
           className="mt-6 w-full cursor-pointer rounded-full bg-secnd py-3 font-medium text-main"
         >

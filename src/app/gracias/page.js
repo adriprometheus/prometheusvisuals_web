@@ -12,7 +12,9 @@ export default function GraciasPage() {
     <>
       <Script id="google-ads-conversion-presupuesto" strategy="afterInteractive">
         {`
-          gtag('event', 'conversion', {'send_to': 'AW-18404658605/Kf55CMnG8uYcEK2bg8hE'});
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+          window.gtag('event', 'conversion', {'send_to': 'AW-18404658605/Kf55CMnG8uYcEK2bg8hE'});
         `}
       </Script>
 
