@@ -8,7 +8,16 @@ import { Resend } from "resend";
 import { DateTime } from "luxon";
 import { TIMEZONE } from "./schedule";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// El cliente se crea en el primer uso, no al importar el módulo.
+// Así next build puede recolectar la configuración de /api/booking
+// sin necesitar RESEND_API_KEY en ese momento.
+let resendClient;
+function getResend() {
+  if (!resendClient) {
+    resendClient = new Resend(process.env.RESEND_API_KEY);
+  }
+  return resendClient;
+}
 
 const FROM_EMAIL =
   process.env.BOOKING_FROM_EMAIL || "prometheus.visuals@gmail.com";
@@ -67,7 +76,7 @@ export async function sendClientConfirmation({
     timeStr,
   });
 
-  return resend.emails.send({
+  return getResend().emails.send({
     from: FROM_EMAIL,
     to,
     subject: `Reserva confirmada — ${when}`,
@@ -145,7 +154,7 @@ export async function sendCompanyNotification({
   if (!COMPANY_EMAIL) return null; // no bloquear la reserva si no está configurado
   const when = formatWhen(dateStr, timeStr);
 
-  return resend.emails.send({
+  return getResend().emails.send({
     from: FROM_EMAIL,
     to: COMPANY_EMAIL,
     subject: `Nueva reserva — ${when}`,
