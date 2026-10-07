@@ -1,28 +1,10 @@
+import { absoluteUrl } from "@/lib/site";
+
+// Todo el mundo (Google, Bing y también los buscadores con IA como ChatGPT,
+// Perplexity o Claude) puede leer la web, salvo la página de gracias y la API.
 export default function robots() {
   return {
-    rules: [
-      {
-        userAgent: "*",
-        allow: "/",
-        disallow: ["/gracias", "/api/"],
-      },
-      {
-        userAgent: [
-          "GPTBot",
-          "OAI-SearchBot",
-          "ChatGPT-User",
-          "PerplexityBot",
-          "Perplexity-User",
-          "ClaudeBot",
-          "Claude-SearchBot",
-          "anthropic-ai",
-          "Google-Extended",
-          "Applebot-Extended",
-        ],
-        allow: "/",
-        disallow: ["/gracias", "/api/"],
-      },
-    ],
-    sitemap: "https://www.prometheusvisuals.com/sitemap.xml",
+    rules: [{ userAgent: "*", allow: "/", disallow: ["/gracias", "/api/"] }],
+    sitemap: absoluteUrl("/sitemap.xml"),
   };
 }

@@ -35,9 +35,6 @@
   /* Asignación de animaciones */
   --animate-marquee: infinite-leftmover 15s linear infinite;
   --animate-marquee-reverse: infinite-rightmover 15s linear infinite;
-  --animate-stroke-check: strokeCheck 0.4s cubic-bezier(0.65, 0, 0.45, 1)
-    forwards 0.3s;
-  --animate-fill-check: fillCheck 0.3s ease-in-out forwards 0.7s;
   --animate-fade-in: fadeIn 0.3s ease forwards;
 }
 
@@ -96,12 +93,10 @@
    3. VARIABLES RAÍZ Y Z-INDEX DE CAPAS
    ========================================================== */
 :root {
-  --navbarsize: 12vh;
   --plyr-video-control-background-hover: rgba(255, 255, 255, 0.2);
   --plyr-color-main: var(--color-lighthover);
   --plyr-video-controls-background: transparent;
   --z-navbar: 500;
-  --z-teatro: 20;
 }
 
 [data-navbar] {

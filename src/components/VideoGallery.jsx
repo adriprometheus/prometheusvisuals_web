@@ -36,7 +36,7 @@ export default function VideoGallery() {
       if (playerRef.current) {
         try {
           playerRef.current.destroy();
-        } catch (e) {
+        } catch {
           // Ignorar
         }
         playerRef.current = null;
@@ -75,7 +75,8 @@ export default function VideoGallery() {
 
           // Forzar reproducción al montar
           player.on("ready", () => {
-            player.play().catch((err) => console.log("Autoplay prevent:", err));
+            // Si el navegador bloquea el autoplay, el usuario pulsa play.
+            player.play().catch(() => {});
           });
 
           // Manejo de pantalla completa nativa para iOS
@@ -87,8 +88,8 @@ export default function VideoGallery() {
             ) {
               try {
                 videoEl.webkitEnterFullscreen();
-              } catch (e) {
-                console.log("Fallback iOS Fullscreen:", e);
+              } catch {
+                // Sin pantalla completa nativa: Plyr usa su propio modo.
               }
             }
           });
@@ -105,7 +106,7 @@ export default function VideoGallery() {
       if (playerRef.current) {
         try {
           playerRef.current.destroy();
-        } catch (e) {
+        } catch {
           // Ignorar
         }
         playerRef.current = null;
@@ -128,7 +129,7 @@ export default function VideoGallery() {
     setActiveVideo(null);
   }, []);
 
-    // Manejo de URL ?videoId=
+  // Manejo de URL ?videoId=
   useEffect(() => {
     const videoIdStr = searchParams.get("videoId");
     if (videoIdStr) {
@@ -189,6 +190,7 @@ export default function VideoGallery() {
               </div>
 
               <button
+                type="button"
                 onClick={closeVideo}
                 className="shrink-0 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
                 aria-label="Cerrar reproductor"
@@ -239,6 +241,10 @@ export default function VideoGallery() {
             layout
             transition={springConfig}
             onClick={() => openVideo(video)}
+            onKeyDown={(e) => e.key === "Enter" && openVideo(video)}
+            role="button"
+            tabIndex={isActive ? -1 : 0}
+            aria-label={`Reproducir ${video.fullTitle}`}
             className={`group relative flex flex-col justify-end overflow-hidden rounded-3xl border aspect-video transition-colors duration-300 ease-out sm:col-span-1 lg:col-span-4 ${
               isActive
                 ? "border-aux ring-1 ring-aux/50 opacity-60 pointer-events-none cursor-default"
@@ -290,18 +296,6 @@ export default function VideoGallery() {
                 </p>
               )}
             </div>
-
-            <script type="application/ld+json" suppressHydrationWarning>
-              {JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "VideoObject",
-                name: video.fullTitle,
-                description: video.description,
-                thumbnailUrl: video.poster,
-                uploadDate: `${video.fecha}-01-01T00:00:00+01:00`,
-                contentUrl: video.videoWebm,
-              })}
-            </script>
           </motion.article>
         );
       })}

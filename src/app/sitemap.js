@@ -1,19 +1,20 @@
-const BASE_URL = "https://www.prometheusvisuals.com";
+import { absoluteUrl } from "@/lib/site";
+
+const routes = [
+  { path: "/", priority: 1 },
+  { path: "/servicios", priority: 0.9 },
+  { path: "/contacto", priority: 0.8 },
+  { path: "/proyectos", priority: 0.8 },
+  { path: "/films", priority: 0.8 },
+  { path: "/about", priority: 0.7 },
+];
 
 export default function sitemap() {
-  const routes = [
-    "",
-    "/contacto",
-    "/proyectos",
-    "/films",
-    "/about",
-    "/servicios",
-  ];
-
-  return routes.map((route) => ({
-    url: `${BASE_URL}${route}`,
-    lastModified: new Date(),
+  const lastModified = new Date();
+  return routes.map(({ path, priority }) => ({
+    url: absoluteUrl(path),
+    lastModified,
     changeFrequency: "monthly",
-    priority: route === "" ? 1 : route === "/servicios" ? 0.9 : 0.8,
+    priority,
   }));
 }

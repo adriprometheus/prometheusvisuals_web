@@ -6,6 +6,9 @@
 
 export const MEETING_DURATION_MINUTES = 60;
 
+// Hasta cuántos días vista se puede reservar.
+export const MAX_DAYS_AHEAD = 180;
+
 // Zona horaria de negocio. Se fija explícitamente para que el servidor
 // (que puede correr en UTC, p.ej. en Vercel) construya siempre las horas
 // correctas independientemente de dónde esté desplegado.
@@ -30,12 +33,4 @@ export function getAllowedSlotsForDate(dateStr) {
   // según el huso horario del entorno de ejecución.
   const dayOfWeek = new Date(Date.UTC(y, m - 1, d)).getUTCDay();
   return WEEKLY_SCHEDULE[dayOfWeek] || [];
-}
-
-export function isDateFormatValid(dateStr) {
-  return /^\d{4}-\d{2}-\d{2}$/.test(dateStr);
-}
-
-export function isTimeFormatValid(timeStr) {
-  return /^\d{2}:\d{2}$/.test(timeStr);
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 import { clients } from "@/data/clients";
 
@@ -73,7 +72,6 @@ function LogoCard({ client }) {
                   ? "filter invert-[0.85] brightness-125 contrast-200"
                   : "filter brightness-125 opacity-60"
               }`}
-          priority // Ayuda a que las dimensiones se calculen inmediatamente al cargar la página
         />
       </div>
     </div>

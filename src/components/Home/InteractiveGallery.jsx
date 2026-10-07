@@ -32,7 +32,9 @@ export default function InteractiveGallery() {
 
           {/* Selector de Pestañas */}
           <div className="flex gap-2 bg-neutral-900/60 p-1 rounded-full border border-white/5">
-            <button onClick={() => setActiveTab("fotos")}
+            <button type="button"
+              aria-pressed={activeTab === "fotos"}
+              onClick={() => setActiveTab("fotos")}
               className={`px-6 py-2 rounded-full text-xs font-medium transition-all cursor-pointer ${
                 activeTab === "fotos"
                   ? "bg-white text-black"
@@ -41,7 +43,9 @@ export default function InteractiveGallery() {
             >
               Fotografía
             </button>
-            <button onClick={() => setActiveTab("videos")}
+            <button type="button"
+              aria-pressed={activeTab === "videos"}
+              onClick={() => setActiveTab("videos")}
               className={`px-6 py-2 rounded-full text-xs font-medium transition-all cursor-pointer ${
                 activeTab === "videos"
                   ? "bg-white text-black"
@@ -64,7 +68,7 @@ export default function InteractiveGallery() {
                 >
                   <Image
                     src={`/fotos/expo(${photo.id}).webp`}
-                    alt={`Prometheus Photo ${photo.id}`}
+                    alt={`Fotografía profesional de Prometheus Visuals en Mallorca (n.º ${photo.id})`}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                     sizes="(max-width: 768px) 50vw, 33vw"
@@ -89,9 +93,9 @@ export default function InteractiveGallery() {
                     <span className="text-[10px] uppercase tracking-wider text-neutral-400 bg-black/40 px-2 py-0.5 rounded-full border border-white/5">
                       {video.placeholder}
                     </span>
-                    <h4 className="text-xs font-semibold text-white mt-1.5 truncate">
+                    <h3 className="text-xs font-semibold text-white mt-1.5 truncate">
                       {video.fullTitle}
-                    </h4>
+                    </h3>
                   </div>
                 </Link>
               ))}

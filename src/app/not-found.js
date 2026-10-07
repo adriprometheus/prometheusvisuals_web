@@ -1,5 +1,9 @@
 import Link from "next/link";
 
+export const metadata = {
+  title: "Página no encontrada",
+};
+
 export default function NotFound() {
   return (
     <main className="mt-navbar flex min-h-[60vh] flex-col items-center justify-center gap-4 px-6 text-center">

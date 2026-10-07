@@ -1,7 +1,8 @@
 "use client";
 
-import { cloneElement, useId, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Field from "@/components/FormField";
 import { countryCodes } from "@/data/countryCodes";
 
 const initialForm = {
@@ -16,29 +17,8 @@ const initialForm = {
   comoConociste: "",
   mensaje: "",
   politica: false,
+  nickname: "", // honeypot anti-spam
 };
-
-// Envuelve un input/textarea y le asocia su <label> con un id único.
-// IMPORTANTE: el <label> debe seguir justo DESPUÉS del input, porque el CSS
-// (globals.css: `input:focus + label`) depende de que sean hermanos contiguos.
-function Field({ label, error, children }) {
-  const id = useId();
-  return (
-    <div className="form-input-group">
-      {cloneElement(children, {
-        id,
-        "aria-invalid": error ? true : undefined,
-        "aria-describedby": error ? `${id}-error` : undefined,
-      })}
-      <label htmlFor={id}>{label}</label>
-      {error && (
-        <p id={`${id}-error`} className="mt-1 text-xs text-red-400">
-          {error}
-        </p>
-      )}
-    </div>
-  );
-}
 
 export default function ContactForm() {
   const router = useRouter();
@@ -90,6 +70,7 @@ export default function ContactForm() {
       comoConociste: form.comoConociste,
       mensaje: form.mensaje,
       politica: form.politica,
+      nickname: form.nickname,
       ...(form.contactoTipo === "correo"
         ? { correo: form.correo }
         : { prefijo: form.prefijo, telf: form.telf }),
@@ -119,7 +100,7 @@ export default function ContactForm() {
     <>
       <form onSubmit={handleSubmit}
         noValidate
-        className="mx-auto flex w-full max-w-xl flex-col gap-6"
+        className="relative mx-auto flex w-full max-w-xl flex-col gap-6"
       >
         <h2 className="text-h3 font-semibold mb-2">
           Cuéntanos en qué estás pensando
@@ -135,6 +116,7 @@ export default function ContactForm() {
           }
         >
           <input name="nombreCompleto"
+            maxLength={120}
             autoComplete="name"
             value={form.nombreCompleto}
             onChange={(e) => update("nombreCompleto", e.target.value)}
@@ -185,6 +167,7 @@ export default function ContactForm() {
           >
             <input type="email"
               name="correo"
+            maxLength={254}
               autoComplete="email"
               value={form.correo}
               onChange={(e) => update("correo", e.target.value)}
@@ -244,6 +227,7 @@ export default function ContactForm() {
             }
           >
             <input name="empresa"
+            maxLength={120}
               autoComplete="organization"
               value={form.empresa}
               onChange={(e) => update("empresa", e.target.value)}
@@ -256,6 +240,7 @@ export default function ContactForm() {
           <Field label="Sitio web (Opcional)">
             <input type="url"
               name="web"
+            maxLength={200}
               autoComplete="url"
               value={form.web}
               onChange={(e) => update("web", e.target.value)}
@@ -271,6 +256,7 @@ export default function ContactForm() {
           error={touched.asunto && !form.asunto.trim() ? "Obligatorio" : null}
         >
           <input name="asunto"
+            maxLength={200}
             value={form.asunto}
             onChange={(e) => update("asunto", e.target.value)}
             onBlur={() => markTouched("asunto")}
@@ -310,12 +296,24 @@ export default function ContactForm() {
         {/* 6. Textarea (Opcional) */}
         <Field label="¿Qué te gustaría hacer? (Opcional)">
           <textarea name="mensaje"
+            maxLength={3000}
             rows={4}
             value={form.mensaje}
             onChange={(e) => update("mensaje", e.target.value)}
             placeholder=" "
           />
         </Field>
+
+        {/* Honeypot anti-spam: invisible para las personas */}
+        <input type="text"
+          name="nickname"
+          value={form.nickname}
+          onChange={(e) => update("nickname", e.target.value)}
+          tabIndex={-1}
+          autoComplete="off"
+          className="absolute left-[-9999px] w-px h-px opacity-0"
+          aria-hidden="true"
+        />
 
         {/* 7. Privacidad */}
         <div className="flex items-start gap-2 text-sm">
@@ -349,14 +347,14 @@ export default function ContactForm() {
         {serverError && <p className="text-sm text-red-400">{serverError}</p>}
       </form>
 
-      {/* El componente <dialog> de la política se queda exactamente igual */}
+      {/* Política de privacidad */}
       <dialog ref={dialogRef}
         className="privacy-modal max-w-lg rounded-2xl bg-projects p-6 text-secnd backdrop:bg-black/70"
       >
-        {/* ... (Contenido del modal intacto) ... */}
         <div className="flex justify-end">
           <button type="button"
             onClick={() => dialogRef.current?.close()}
+            aria-label="Cerrar política de privacidad"
             className="cursor-pointer text-2xl leading-none"
           >
             &times;

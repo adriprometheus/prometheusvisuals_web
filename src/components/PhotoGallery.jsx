@@ -14,9 +14,9 @@ export default function PhotoGallery() {
   const touchEndX = useRef(0);
 
   const fotosOrdenadas = useMemo(
-  () => [...fotos].sort((a, b) => b.id - a.id),
-  [],
-);
+    () => [...fotos].sort((a, b) => b.id - a.id),
+    [],
+  );
 
   const openModal = useCallback((index) => {
     setCurrentIndex(index);
@@ -35,7 +35,7 @@ export default function PhotoGallery() {
     );
   }, [fotosOrdenadas.length]);
 
-    const showNext = useCallback((e) => {
+  const showNext = useCallback((e) => {
     e?.stopPropagation();
     setCurrentIndex((prev) =>
       prev === fotosOrdenadas.length - 1 ? 0 : prev + 1,
@@ -43,7 +43,7 @@ export default function PhotoGallery() {
   }, [fotosOrdenadas.length]);
 
   // Apertura desde URL (?fotoId=...)
-    useEffect(() => {
+  useEffect(() => {
     const fotoIdStr = searchParams.get("fotoId");
     if (fotoIdStr) {
       const id = parseInt(fotoIdStr, 10);
@@ -106,11 +106,13 @@ export default function PhotoGallery() {
               className="relative mb-3 block break-inside-avoid overflow-hidden rounded-lg cursor-zoom-in"
               onClick={() => openModal(index)}
               onKeyDown={(e) => e.key === "Enter" && openModal(index)}
+              role="button"
+              aria-label={`Ampliar foto ${foto.id}`}
               tabIndex={0}
             >
               <Image
                 src={`/fotos/expo(${foto.id}).webp`}
-                alt={foto.alt || `Exposición número ${foto.id}`}
+                alt={foto.alt || `Fotografía profesional de Prometheus Visuals en Mallorca (n.º ${foto.id})`}
                 width={foto.width}
                 height={foto.height}
                 sizes="(max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
@@ -127,6 +129,7 @@ export default function PhotoGallery() {
         <div
           role="dialog"
           aria-modal="true"
+          aria-label="Visor de fotografías"
           className="fixed inset-0 z-300 flex flex-col items-center justify-between bg-black/95 backdrop-blur-md select-none animate-fade-in"
           onClick={(e) => e.target === e.currentTarget && closeModal()}
           onTouchStart={handleTouchStart}
@@ -134,8 +137,9 @@ export default function PhotoGallery() {
         >
           {/* BOTÓN CERRAR - Siempre arriba a la derecha */}
           <button
+            type="button"
             onClick={closeModal}
-            aria-label="Cerrar modal"
+            aria-label="Cerrar visor"
             className="cursor-pointer absolute right-4 top-4 z-310 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-lg transition-all hover:bg-white/20 active:scale-90"
           >
             <svg
@@ -155,7 +159,9 @@ export default function PhotoGallery() {
 
           {/* FLECHAS PANTALLAS GRANDES (2XL+) - Flotando a los lados */}
           <button
+            type="button"
             onClick={showPrev}
+            aria-label="Foto anterior"
             className="hidden 2xl:flex cursor-pointer absolute left-6 top-1/2 -translate-y-1/2 z-30 h-14 w-14 items-center justify-center rounded-full bg-white/5 text-white/80 transition-all hover:bg-white/15 hover:text-white"
           >
             <svg
@@ -174,7 +180,9 @@ export default function PhotoGallery() {
           </button>
 
           <button
+            type="button"
             onClick={showNext}
+            aria-label="Foto siguiente"
             className="hidden 2xl:flex cursor-pointer absolute right-6 top-1/2 -translate-y-1/2 z-30 h-14 w-14 items-center justify-center rounded-full bg-white/5 text-white/80 transition-all hover:bg-white/15 hover:text-white"
           >
             <svg
@@ -214,7 +222,9 @@ export default function PhotoGallery() {
             <div className="flex items-center justify-between gap-4">
               {/* Flecha Anterior (Hasta 2XL) */}
               <button
+                type="button"
                 onClick={showPrev}
+                aria-label="Foto anterior"
                 className="flex 2xl:hidden cursor-pointer h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/10 text-white active:bg-white/20"
               >
                 <svg
@@ -242,7 +252,9 @@ export default function PhotoGallery() {
 
               {/* Flecha Siguiente (Hasta 2XL) */}
               <button
+                type="button"
                 onClick={showNext}
+                aria-label="Foto siguiente"
                 className="flex 2xl:hidden cursor-pointer h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/10 text-white active:bg-white/20"
               >
                 <svg

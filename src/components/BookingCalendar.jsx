@@ -1,6 +1,8 @@
 "use client";
 
-import { cloneElement, useId, useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
+import Field from "@/components/FormField";
+import { MAX_DAYS_AHEAD } from "@/lib/schedule";
 
 function isDayDisabled(day, month, year) {
   const checkDate = new Date(year, month, day);
@@ -13,6 +15,9 @@ function isDayDisabled(day, month, year) {
   );
 
   if (checkDate < todayMidnight) return true;
+  const lastBookable = new Date(todayMidnight);
+  lastBookable.setDate(lastBookable.getDate() + MAX_DAYS_AHEAD);
+  if (checkDate > lastBookable) return true;
   // Solo se aceptan miércoles (3) y viernes (5). El resto de días de
   // semana también quedan deshabilitados aquí para que el frontend refleje
   // exactamente el mismo horario que valida el backend (lib/schedule.js).
@@ -22,28 +27,6 @@ function isDayDisabled(day, month, year) {
 
 function toDateStr(year, month, day) {
   return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-}
-
-// Envuelve un input/textarea y le asocia su <label> con un id único.
-// IMPORTANTE: el <label> debe seguir justo DESPUÉS del input, porque el CSS
-// (globals.css: `input:focus + label`) depende de que sean hermanos contiguos.
-function Field({ label, error, children }) {
-  const id = useId();
-  return (
-    <div className="form-input-group">
-      {cloneElement(children, {
-        id,
-        "aria-invalid": error ? true : undefined,
-        "aria-describedby": error ? `${id}-error` : undefined,
-      })}
-      <label htmlFor={id}>{label}</label>
-      {error && (
-        <p id={`${id}-error`} className="mt-1 text-xs text-red-400">
-          {error}
-        </p>
-      )}
-    </div>
-  );
 }
 
 const initialContact = { name: "", email: "", reason: "", website: "" };
@@ -98,6 +81,11 @@ export default function BookingCalendar() {
   const prevDisabled =
     year < today.getFullYear() ||
     (year === today.getFullYear() && month <= today.getMonth());
+  const lastBookable = new Date(today);
+  lastBookable.setDate(lastBookable.getDate() + MAX_DAYS_AHEAD);
+  const nextDisabled =
+    year > lastBookable.getFullYear() ||
+    (year === lastBookable.getFullYear() && month >= lastBookable.getMonth());
 
   // FIX: cambiar de mes mientras hay un día seleccionado dejaba el panel de
   // horas "vivo" con datos de un día que ya no corresponde a la vista
@@ -295,7 +283,8 @@ export default function BookingCalendar() {
                 <div>
                   {/* Controles del mes */}
                   <div className="flex items-center justify-between px-1">
-                    <button onClick={() => goToMonth(new Date(year, month - 1, 1))}
+                    <button type="button"
+                      onClick={() => goToMonth(new Date(year, month - 1, 1))}
                       disabled={prevDisabled}
                       className="px-4 py-2 text-xl disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed hover:bg-white/10 rounded-xl transition-colors"
                       aria-label="Mes anterior"
@@ -305,8 +294,10 @@ export default function BookingCalendar() {
                     <p className="capitalize font-medium text-white tracking-wide">
                       {monthLabel} {year}
                     </p>
-                    <button onClick={() => goToMonth(new Date(year, month + 1, 1))}
-                      className="px-4 py-2 text-xl cursor-pointer hover:bg-white/10 rounded-xl transition-colors"
+                    <button type="button"
+                      onClick={() => goToMonth(new Date(year, month + 1, 1))}
+                      disabled={nextDisabled}
+                      className="px-4 py-2 text-xl disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed hover:bg-white/10 rounded-xl transition-colors"
                       aria-label="Mes siguiente"
                     >
                       &gt;
@@ -357,7 +348,6 @@ export default function BookingCalendar() {
               </div>
             </div>
 
-            {/* COLUMNA HORAS. */}
             {/* COLUMNA HORAS Y FORMULARIO */}
             <div ref={hoursPanelRef}
               className={`min-w-0 lg:self-start lg:overflow-hidden transition-opacity duration-300
@@ -416,7 +406,7 @@ export default function BookingCalendar() {
                   {selectedSlot && (
                     <form onSubmit={confirmBooking}
                       noValidate
-                      className="mt-6 flex flex-col gap-4 border-t border-white/10 pt-6 animate-fadeIn"
+                      className="mt-6 flex flex-col gap-4 border-t border-white/10 pt-6 animate-fade-in"
                     >
                       <Field
                         label="Nombre completo"
@@ -427,6 +417,7 @@ export default function BookingCalendar() {
                         }
                       >
                         <input name="nombre"
+                          maxLength={120}
                           autoComplete="name"
                           value={contact.name}
                           onChange={(e) =>
@@ -449,6 +440,7 @@ export default function BookingCalendar() {
                       >
                         <input type="email"
                           name="email"
+                          maxLength={254}
                           autoComplete="email"
                           value={contact.email}
                           onChange={(e) =>
@@ -469,6 +461,7 @@ export default function BookingCalendar() {
                         }
                       >
                         <textarea name="motivo"
+                          maxLength={1000}
                           rows={2}
                           value={contact.reason}
                           onChange={(e) =>
@@ -528,7 +521,7 @@ export default function BookingCalendar() {
             {confirmedMeetLink && (
               <a href={confirmedMeetLink}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="mt-6 text-sm underline text-white"
               >
                 Ver enlace de la reunión

@@ -1,24 +1,46 @@
 import Image from "next/image";
 import Link from "next/link";
 import ServicesFAQ from "@/components/ServicesFAQ";
+import JsonLd from "@/components/JsonLd";
+import { faqs } from "@/data/faqs";
 import { mainServices } from "@/data/mainServices";
+import { absoluteUrl, pageMetadata, siteUrl } from "@/lib/site";
 
-export const metadata = {
-  title: "Servicios de Producción Audiovisual y Redes Sociales en Mallorca",
+export const metadata = pageMetadata({
+  title: "Servicios de producción audiovisual y redes sociales en Mallorca",
   description:
-    "Servicios de rodaje cinematográfico, fotografía profesional, gestión de feeds en Instagram y campañas Meta Ads en Mallorca. Impulsa tu marca con Prometheus Visuals.",
-  alternates: { canonical: "/servicios" },
-  openGraph: {
-    title: "Servicios de Producción Audiovisual y Estrategia Digital",
-    description:
-      "Producción de vídeo cinematográfico, fotografía comercial, gestión estética de redes y publicidad orientada a ventas en Mallorca.",
-    url: "/servicios",
-  },
+    "Rodaje cinematográfico, fotografía profesional, gestión de Instagram y campañas de Meta Ads en Mallorca. Descubre cómo impulsamos tu marca.",
+  path: "/servicios",
+});
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    ...mainServices.map((service) => ({
+      "@type": "Service",
+      "@id": absoluteUrl(`/servicios#${service.id}`),
+      name: service.subtitle,
+      serviceType: service.badge,
+      description: service.description,
+      image: absoluteUrl(service.images[0].src),
+      provider: { "@id": `${siteUrl}/#organization` },
+      areaServed: { "@type": "Place", name: "Mallorca" },
+    })),
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.q,
+        acceptedAnswer: { "@type": "Answer", text: faq.a },
+      })),
+    },
+  ],
 };
 
 export default function ServicesPage() {
   return (
     <main className="w-full bg-black text-neutral-200">
+      <JsonLd data={jsonLd} />
       <section className="relative pt-32 pb-20 px-6 sm:px-12 lg:px-24 max-w-6xl mx-auto text-center">
         <span className="text-xs font-mono uppercase tracking-widest text-neutral-500">
           PROMETHEUS VISUALS — MALLORCA

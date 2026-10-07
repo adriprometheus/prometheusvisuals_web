@@ -1,4 +1,3 @@
-// Datos extraídos de los data-attributes de films.html original
 export const videos = [
   {
     id: 1,
@@ -6,8 +5,8 @@ export const videos = [
     fullTitle: "Arquitectura Rústica en Mallorca",
     lugar: "Felanitx",
     fecha: "2025",
-    videoWebm: "/videos/Vid-Expo (1)-WebM 1080p (CQ=32).webm",
-    videoMp4: "/videos/fallback/Vid-Expo (1)-Fallback.mp4",
+    videoWebm: "/videos/expo-1.webm",
+    videoMp4: "/videos/fallback/expo-1.mp4",
     poster: "/fotos/expo(19).webp",
     isVertical: false,
     description:
@@ -16,11 +15,11 @@ export const videos = [
   {
     id: 2,
     placeholder: "LIFESTYLE",
-    fullTitle: "Vacaciones Idilicas en Mallorca",
+    fullTitle: "Vacaciones Idílicas en Mallorca",
     lugar: "Santanyí",
     fecha: "2025",
-    videoWebm: "/videos/Vid-Expo (2)-WebM 1080p (CQ=32).webm",
-    videoMp4: "/videos/fallback/Vid-Expo (2)-Fallback.mp4",
+    videoWebm: "/videos/expo-2.webm",
+    videoMp4: "/videos/fallback/expo-2.mp4",
     poster: "/fotos/expo(151).webp",
     isVertical: true,
     description:
@@ -32,8 +31,8 @@ export const videos = [
     fullTitle: "Helados Iceberg en Horeca 2026",
     lugar: "Palma",
     fecha: "2026",
-    videoWebm: "/videos/Vid-Expo (3)-WebM 1080p (CQ=32).webm",
-    videoMp4: "/videos/fallback/Vid-Expo (3)-Fallback.mp4",
+    videoWebm: "/videos/expo-3.webm",
+    videoMp4: "/videos/fallback/expo-3.mp4",
     poster: "/fotos/expo(164).webp",
     isVertical: true,
     description:
@@ -45,8 +44,8 @@ export const videos = [
     fullTitle: "Comida en Los Rafaeles",
     lugar: "Palma",
     fecha: "2025",
-    videoWebm: "/videos/Vid-Expo (4)-WebM 1080p (CQ=32).webm",
-    videoMp4: "/videos/fallback/Vid-Expo (4)-Fallback.mp4",
+    videoWebm: "/videos/expo-4.webm",
+    videoMp4: "/videos/fallback/expo-4.mp4",
     poster: "/fotos/expo(74).webp",
     isVertical: true,
     description:
@@ -58,8 +57,8 @@ export const videos = [
     fullTitle: "Fiesta en el Mar",
     lugar: "Cala d'Or",
     fecha: "2025",
-    videoWebm: "/videos/Vid-Expo (5)-WebM 1080p (CQ=32).webm",
-    videoMp4: "/videos/fallback/Vid-Expo (5)-Fallback.mp4",
+    videoWebm: "/videos/expo-5.webm",
+    videoMp4: "/videos/fallback/expo-5.mp4",
     poster: "/fotos/expo(2).webp",
     isVertical: true,
     description:
@@ -71,8 +70,8 @@ export const videos = [
     fullTitle: "Navegando los Mares",
     lugar: "Cala d'Or",
     fecha: "2025",
-    videoWebm: "/videos/Vid-Expo (6)-WebM 1080p (CQ=32).webm",
-    videoMp4: "/videos/fallback/Vid-Expo (6)-Fallback.mp4",
+    videoWebm: "/videos/expo-6.webm",
+    videoMp4: "/videos/fallback/expo-6.mp4",
     poster: "/fotos/expo(194).webp",
     isVertical: true,
     description:
@@ -84,8 +83,8 @@ export const videos = [
     fullTitle: "Habitación de Hotel en Mallorca",
     lugar: "Pollença",
     fecha: "2025",
-    videoWebm: "/videos/Vid-Expo (7)-WebM 1080p (CQ=32).webm",
-    videoMp4: "/videos/fallback/Vid-Expo (7)-Fallback.mp4",
+    videoWebm: "/videos/expo-7.webm",
+    videoMp4: "/videos/fallback/expo-7.mp4",
     poster: "/fotos/expo(146).webp",
     isVertical: true,
     description:
@@ -97,8 +96,8 @@ export const videos = [
     fullTitle: "Desconexión de la Rutina",
     lugar: "Pollença",
     fecha: "2025",
-    videoWebm: "/videos/Vid-Expo (8)-WebM 1080p (CQ=32).webm",
-    videoMp4: "/videos/fallback/Vid-Expo (8)-Fallback.mp4",
+    videoWebm: "/videos/expo-8.webm",
+    videoMp4: "/videos/fallback/expo-8.mp4",
     poster: "/fotos/expo(130).webp",
     isVertical: true,
     description:
@@ -110,8 +109,8 @@ export const videos = [
     fullTitle: "Amor y elegancia en Mallorca",
     lugar: "Puntiró",
     fecha: "2026",
-    videoWebm: "/videos/Vid-Expo (9)-WebM 1080p (CQ=32).webm",
-    videoMp4: "/videos/fallback/Vid-Expo (9)-Fallback.mp4",
+    videoWebm: "/videos/expo-9.webm",
+    videoMp4: "/videos/fallback/expo-9.mp4",
     poster: "/fotos/expo(66).webp",
     isVertical: true,
     description:

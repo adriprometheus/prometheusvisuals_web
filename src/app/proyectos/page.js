@@ -1,18 +1,13 @@
 import { Suspense } from "react";
 import PhotoGallery from "@/components/PhotoGallery";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata = {
-  title: "Descubre el porfolio de Fotos de Prometheus Visuals",
+export const metadata = pageMetadata({
+  title: "Porfolio de fotografía profesional en Mallorca",
   description:
-    "Explora nuestro porfolio de fotografía profesional. Capturamos la esencia de marcas, gastronomía, eventos y proyectos comerciales con un estilo único.",
-  alternates: { canonical: "/proyectos" },
-  openGraph: {
-    title: "GDescubre el porfolio de Fotos de Prometheus Visuals",
-    description:
-      "Explora nuestro porfolio de fotografía profesional. Capturamos la esencia de marcas, gastronomía, eventos y proyectos comerciales con un estilo único.",
-    url: "/proyectos",
-  },
-};
+    "Fotografía profesional para marcas, gastronomía, hoteles y eventos en Mallorca. Descubre los proyectos fotográficos de Prometheus Visuals.",
+  path: "/proyectos",
+});
 
 export default function ProyectosPage() {
   return (

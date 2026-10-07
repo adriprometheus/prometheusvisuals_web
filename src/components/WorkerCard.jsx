@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 
 export default function WorkerCard({ member, className = "" }) {
@@ -18,7 +17,7 @@ export default function WorkerCard({ member, className = "" }) {
         />
         <Image
           src={member.imageHover}
-          alt={`${member.name} - Hover`}
+          alt=""
           fill
           sizes="112px"
           quality={85}

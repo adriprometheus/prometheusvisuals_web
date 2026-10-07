@@ -1,22 +1,14 @@
-import React from "react";
 import { workers } from "@/data/workers";
 import WorkerCard from "@/components/WorkerCard";
 import ClientCarousel from "@/components/ClientsSlider";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata = {
-  title:
-    "Conoce más sobre Prometheus Visuals, la agencia audiovisual líder en Mallorca",
+export const metadata = pageMetadata({
+  title: "Sobre nosotros: el equipo de Prometheus Visuals",
   description:
-    "Consolidarnos como la agencia audiovisual y de estrategia digital de referencia en Mallorca para marcas locales e internacionales. Acompañamos a nuestros clientes en rodajes presenciales, curaduría estética de perfil y optimización continua de campañas publicitarias en Meta Ads.",
-  alternates: { canonical: "/about" },
-  openGraph: {
-    title:
-      "Conoce más sobre Prometheus Visuals, la agencia audiovisual líder en Mallorca",
-    description:
-      "Consolidarnos como la agencia audiovisual y de estrategia digital de referencia en Mallorca para marcas locales e internacionales. Acompañamos a nuestros clientes en rodajes presenciales, curaduría estética de perfil y optimización continua de campañas publicitarias en Meta Ads.",
-    url: "/about",
-  },
-};
+    "Somos Marc y Jordi, una agencia audiovisual nacida en Mallorca. Unimos narrativa cinematográfica y estrategia digital para crear marcas memorables y rentables.",
+  path: "/about",
+});
 
 const scrollingMembers = [...workers, ...workers];
 

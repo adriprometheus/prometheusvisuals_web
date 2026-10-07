@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 import { contactSchema } from "@/lib/contactSchema";
 import { sendContactNotification } from "@/lib/email";
+import { rateLimit, readJsonBody } from "@/lib/apiGuard";
 
 export async function POST(request) {
-  let payload;
-  try {
-    payload = await request.json();
-  } catch {
-    return NextResponse.json({ error: "JSON inválido." }, { status: 400 });
-  }
+  const limited = rateLimit(request, "contact", { limit: 5, windowMs: 10 * 60_000 });
+  if (limited) return limited;
+
+  const { data: payload, error } = await readJsonBody(request);
+  if (error) return error;
 
   const parsed = contactSchema.safeParse(payload);
   if (!parsed.success) {
@@ -16,6 +16,11 @@ export async function POST(request) {
       { error: "Datos inválidos.", issues: parsed.error.flatten().fieldErrors },
       { status: 422 },
     );
+  }
+
+  // Honeypot relleno = bot. Fingimos éxito y no enviamos nada.
+  if (parsed.data.nickname) {
+    return NextResponse.json({ ok: true });
   }
 
   try {
@@ -27,9 +32,6 @@ export async function POST(request) {
       { status: 502 },
     );
   }
-
-  // TODO: además de enviar el email, aquí es un buen sitio para persistir
-  // el lead en base de datos (Postgres/Prisma, Airtable, etc.).
 
   return NextResponse.json({ ok: true });
 }

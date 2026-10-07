@@ -7,6 +7,7 @@
 import { Resend } from "resend";
 import { DateTime } from "luxon";
 import { TIMEZONE } from "./schedule";
+import { escapeHtml } from "./escapeHtml";
 
 // El cliente se crea en el primer uso, no al importar el módulo.
 // Así next build puede recolectar la configuración de /api/booking
@@ -34,7 +35,7 @@ const ACCENT_TEXT = "#000000"; // Texto del botón
 // Sustituye con la URL pública de tu logo
 const LOGO_URL =
   process.env.COMPANY_LOGO_URL ||
-  "https://prometheusvisuals.com/logos/Prometheus-logo.png";
+  "https://www.prometheusvisuals.com/logos/Prometheus-logo.png";
 
 function formatWhen(dateStr, timeStr) {
   return DateTime.fromISO(`${dateStr}T${timeStr}`, { zone: TIMEZONE })
@@ -44,7 +45,6 @@ function formatWhen(dateStr, timeStr) {
 
 function buildGoogleCalendarUrl({ title, description, dateStr, timeStr }) {
   // Convertimos la fecha y hora a formato ISO sin guiones/puntos para Google (YYYYMMDDTHHmmss)
-  // Duración: 15 minutos
   const startdt = DateTime.fromISO(`${dateStr}T${timeStr}`, { zone: TIMEZONE });
   const enddt = startdt.plus({ minutes: 60 });
 
@@ -91,7 +91,7 @@ export async function sendClientConfirmation({
         <div style="max-width: 520px; margin: 0 auto; background-color: ${BG_DARK}; border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; padding: 36px 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
           
           <div style="margin-bottom: 28px; text-align: left;">
-            <img src="${LOGO_URL}" alt="${escapeHtml(COMPANY_NAME)}" style="height: 36px; width: auto; display: block;" />
+            <img src="${escapeHtml(LOGO_URL)}" alt="${escapeHtml(COMPANY_NAME)}" style="height: 36px; width: auto; display: block;" />
           </div>
 
           <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px 0; color: #ffffff; letter-spacing: -0.5px;">
@@ -114,14 +114,14 @@ export async function sendClientConfirmation({
               <tr>
                 <td style="padding: 6px 0; color: ${TEXT_MUTED}; font-size: 13px;">Acceso Meet</td>
                 <td style="padding: 6px 0; text-align: right;">
-                  <a href="${meetLink}" target="_blank" style="color: #ffffff; font-weight: 600; text-decoration: underline;">Unirse a la reunión</a>
+                  <a href="${escapeHtml(meetLink)}" target="_blank" style="color: #ffffff; font-weight: 600; text-decoration: underline;">Unirse a la reunión</a>
                 </td>
               </tr>
             </table>
           </div>
 
           <div style="margin-bottom: 32px; text-align: center;">
-            <a href="${meetLink}" target="_blank" style="display: block; width: 100%; box-sizing: border-box; text-align: center; background-color: ${ACCENT_COLOR}; color: ${ACCENT_TEXT}; padding: 14px 20px; border-radius: 9999px; font-weight: 700; font-size: 13px; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px;">
+            <a href="${escapeHtml(meetLink)}" target="_blank" style="display: block; width: 100%; box-sizing: border-box; text-align: center; background-color: ${ACCENT_COLOR}; color: ${ACCENT_TEXT}; padding: 14px 20px; border-radius: 9999px; font-weight: 700; font-size: 13px; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px;">
               Unirse a la reunión en Google Meet
             </a>
           </div>
@@ -169,11 +169,4 @@ export async function sendCompanyNotification({
       </div>
     `,
   });
-}
-
-function escapeHtml(str = "") {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
 }

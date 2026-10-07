@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ScrollToContact from "@/components/ScrollToContact";
+import ScrollToSection from "@/components/ScrollToSection";
 import { plans } from "@/data/plans";
 
 const accentStyles = {
@@ -30,8 +30,8 @@ export default function Pricing() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-        {plans.map((plan, idx) => (
-          <div key={idx}
+        {plans.map((plan) => (
+          <div key={plan.name}
             className={`relative rounded-4xl p-8 sm:p-10 flex flex-col justify-between border transition-all duration-300 ${
               plan.accent
                 ? accentStyles[plan.accent].card
@@ -52,15 +52,13 @@ export default function Pricing() {
               <h3 className="text-2xl font-bold text-white mt-1 mb-2">
                 {plan.name}
               </h3>
-              <p className="text-xs text-neutral-400 mb-6 leading-relaxed">
-                {plan.description}
-              </p>
+              {plan.description && (
+                <p className="text-xs text-neutral-400 mb-6 leading-relaxed">
+                  {plan.description}
+                </p>
+              )}
 
-              {/* Sección de Precio con "Desde" */}
-              <div className="mb-8 border-b border-white/5 pb-6">
-                <div className="flex items-baseline gap-2">
-                </div>
-              </div>
+              <div className="mb-8 border-b border-white/5 pb-6" />
 
               <ul className="space-y-4 text-xs text-neutral-300 mb-8">
                 {plan.features.map((feat, fIdx) => (
@@ -83,7 +81,7 @@ export default function Pricing() {
             </div>
 
             <div className="pt-4">
-              <ScrollToContact
+              <ScrollToSection targetId="contacto"
                 className={`block w-full py-3.5 px-6 rounded-full text-center text-xs font-semibold tracking-wider transition-all duration-300 ${
                   plan.accent
                     ? "bg-white text-black hover:bg-neutral-200"
@@ -91,7 +89,7 @@ export default function Pricing() {
                 }`}
               >
                 SOLICITAR PLAN
-              </ScrollToContact>
+              </ScrollToSection>
             </div>
           </div>
         ))}

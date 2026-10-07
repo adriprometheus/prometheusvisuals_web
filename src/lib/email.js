@@ -1,9 +1,13 @@
 import { Resend } from "resend";
+import { escapeHtml } from "./escapeHtml";
 
 function getResendClient() {
   if (!process.env.RESEND_API_KEY) return null;
   return new Resend(process.env.RESEND_API_KEY);
 }
+
+// Quita saltos de línea para que nada raro se cuele en el asunto del email.
+const oneLine = (str = "") => String(str).replace(/[\r\n]+/g, " ");
 
 export async function sendContactNotification(data) {
   const resend = getResendClient();
@@ -11,10 +15,8 @@ export async function sendContactNotification(data) {
   const from = process.env.CONTACT_FROM_EMAIL || "onboarding@resend.dev";
 
   if (!resend || !to) {
-    console.warn(
-      "[email] RESEND_API_KEY o CONTACT_TO_EMAIL no configurados. Email no enviado.",
-      data,
-    );
+    // No se registran los datos del formulario: son datos personales.
+    console.warn("[email] RESEND_API_KEY o CONTACT_TO_EMAIL no configurados. Email no enviado.");
     return { skipped: true };
   }
 
@@ -22,7 +24,7 @@ export async function sendContactNotification(data) {
     from,
     to,
     replyTo: data.contactoTipo === "correo" ? data.correo : undefined,
-    subject: `Nuevo contacto: ${data.nombreCompleto} — ${data.asunto}`,
+    subject: oneLine(`Nuevo contacto: ${data.nombreCompleto} — ${data.asunto}`),
     html: `
       <h2>Nuevo formulario de contacto simplificado</h2>
       <p><strong>Nombre completo:</strong> ${escapeHtml(data.nombreCompleto)}</p>
@@ -41,12 +43,4 @@ export async function sendContactNotification(data) {
       <p><strong>Mensaje:</strong><br/>${data.mensaje ? escapeHtml(data.mensaje).replace(/\n/g, "<br/>") : "Sin mensaje adicional"}</p>
     `,
   });
-}
-
-function escapeHtml(str = "") {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
 }
