@@ -28,6 +28,12 @@ function setupVideo(el) {
   el.play().catch(() => {});
 }
 
+// Primer fotograma del vídeo: se ve desde el primer momento y se queda si el
+// móvil bloquea la reproducción automática (p. ej. modo de bajo consumo).
+const POSTER = "/videos/hero-poster.jpg";
+
+// El MP4 (H.264) va primero: lo reproduce cualquier navegador, iPhone incluido,
+// y pesa la mitad que el WebM.
 function HeroVideo() {
   return (
     <video ref={setupVideo}
@@ -36,11 +42,23 @@ function HeroVideo() {
       loop
       playsInline
       preload="auto"
+      poster={POSTER}
       className="h-full w-full object-cover"
     >
-      <source src="/videos/Home-Main-Vid.webm" type="video/webm" />
       <source src="/videos/fallback/Home-Main-Vid.mp4" type="video/mp4" />
+      <source src="/videos/Home-Main-Vid.webm" type="video/webm" />
     </video>
+  );
+}
+
+function HeroPoster() {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={POSTER}
+      alt=""
+      fetchPriority="high"
+      className="h-full w-full object-cover"
+    />
   );
 }
 
@@ -90,7 +108,7 @@ export default function Hero() {
             }}
             className="z-20 overflow-hidden shadow-2xl"
           >
-            {isDesktop === true && <HeroVideo />}
+            {isDesktop === true ? <HeroVideo /> : <HeroPoster />}
           </motion.div>
         </div>
       </div>
@@ -127,7 +145,7 @@ export default function Hero() {
               (que se ha quedado fijo arriba). En cuanto el vídeo lo cubre
               del todo, el enunciado se suelta solo y sigue el scroll normal. */}
           <div className="relative z-20 aspect-video w-full shadow-2xl">
-            {isDesktop === false && <HeroVideo />}
+            {isDesktop === false ? <HeroVideo /> : <HeroPoster />}
           </div>
         </div>
 
