@@ -1,20 +1,41 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef, useSyncExternalStore } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import ScrollToSection from "@/components/ScrollToSection";
 
-// El vídeo de portada (20 MB) aparece dos veces en el HTML: una versión para
-// móvil y otra para escritorio, y CSS oculta una de las dos. Los dos <video>
-// llevan preload="none" y solo se carga y reproduce el que se ve, para
-// no descargar el vídeo dos veces.
-function HeroVideo({ videoRef }) {
+// El vídeo de portada (20 MB) tiene una maquetación para móvil y otra para
+// escritorio. Para no descargarlo dos veces, solo se monta el <video> de la
+// versión que se ve, ya en el navegador (en el HTML del servidor no hay vídeo).
+const DESKTOP_QUERY = "(min-width: 768px)";
+
+function subscribeToViewport(callback) {
+  const mq = window.matchMedia(DESKTOP_QUERY);
+  mq.addEventListener("change", callback);
+  return () => mq.removeEventListener("change", callback);
+}
+const getIsDesktop = () => window.matchMedia(DESKTOP_QUERY).matches;
+const getServerIsDesktop = () => null;
+
+// iOS solo reproduce automáticamente un vídeo si está silenciado, con autoplay y
+// playsinline. React no siempre pone el atributo "muted" en el HTML, así que
+// se fuerza aquí y se llama a play() por si el autoplay no arranca solo.
+function setupVideo(el) {
+  if (!el) return;
+  el.muted = true;
+  el.defaultMuted = true;
+  el.setAttribute("muted", "");
+  el.play().catch(() => {});
+}
+
+function HeroVideo() {
   return (
-    <video ref={videoRef}
+    <video ref={setupVideo}
+      autoPlay
       muted
       loop
       playsInline
-      preload="none"
+      preload="auto"
       className="h-full w-full object-cover"
     >
       <source src="/videos/Home-Main-Vid.webm" type="video/webm" />
@@ -25,30 +46,11 @@ function HeroVideo({ videoRef }) {
 
 export default function Hero() {
   const containerRef = useRef(null);
-  const desktopVideoRef = useRef(null);
-  const mobileVideoRef = useRef(null);
-
-  useEffect(() => {
-    const desktop = window.matchMedia("(min-width: 768px)");
-    function playVisible() {
-      const [visible, hidden] = desktop.matches
-        ? [desktopVideoRef.current, mobileVideoRef.current]
-        : [mobileVideoRef.current, desktopVideoRef.current];
-      if (hidden) {
-        hidden.autoplay = false;
-        hidden.pause();
-      }
-      // autoplay (y no play()) para que el navegador aplique sus reglas de
-      // reproducción automática igual que con el atributo en el HTML.
-      if (visible && !visible.autoplay) {
-        visible.autoplay = true;
-        visible.load();
-      }
-    }
-    playVisible();
-    desktop.addEventListener("change", playVisible);
-    return () => desktop.removeEventListener("change", playVisible);
-  }, []);
+  const isDesktop = useSyncExternalStore(
+    subscribeToViewport,
+    getIsDesktop,
+    getServerIsDesktop,
+  );
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -88,7 +90,7 @@ export default function Hero() {
             }}
             className="z-20 overflow-hidden shadow-2xl"
           >
-            <HeroVideo videoRef={desktopVideoRef} />
+            {isDesktop === true && <HeroVideo />}
           </motion.div>
         </div>
       </div>
@@ -125,7 +127,7 @@ export default function Hero() {
               (que se ha quedado fijo arriba). En cuanto el vídeo lo cubre
               del todo, el enunciado se suelta solo y sigue el scroll normal. */}
           <div className="relative z-20 aspect-video w-full shadow-2xl">
-            <HeroVideo videoRef={mobileVideoRef} />
+            {isDesktop === false && <HeroVideo />}
           </div>
         </div>
 
