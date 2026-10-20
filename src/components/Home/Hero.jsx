@@ -1,75 +1,11 @@
 "use client";
 
-import { useRef, useSyncExternalStore } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import ScrollToSection from "@/components/ScrollToSection";
 
-// El vídeo de portada (20 MB) tiene una maquetación para móvil y otra para
-// escritorio. Para no descargarlo dos veces, solo se monta el <video> de la
-// versión que se ve, ya en el navegador (en el HTML del servidor no hay vídeo).
-const DESKTOP_QUERY = "(min-width: 768px)";
-
-function subscribeToViewport(callback) {
-  const mq = window.matchMedia(DESKTOP_QUERY);
-  mq.addEventListener("change", callback);
-  return () => mq.removeEventListener("change", callback);
-}
-const getIsDesktop = () => window.matchMedia(DESKTOP_QUERY).matches;
-const getServerIsDesktop = () => null;
-
-// iOS solo reproduce automáticamente un vídeo si está silenciado, con autoplay y
-// playsinline. React no siempre pone el atributo "muted" en el HTML, así que
-// se fuerza aquí y se llama a play() por si el autoplay no arranca solo.
-function setupVideo(el) {
-  if (!el) return;
-  el.muted = true;
-  el.defaultMuted = true;
-  el.setAttribute("muted", "");
-  el.play().catch(() => {});
-}
-
-// Primer fotograma del vídeo: se ve desde el primer momento y se queda si el
-// móvil bloquea la reproducción automática (p. ej. modo de bajo consumo).
-const POSTER = "/videos/hero-poster.jpg";
-
-// El MP4 (H.264) va primero: lo reproduce cualquier navegador, iPhone incluido,
-// y pesa la mitad que el WebM.
-function HeroVideo() {
-  return (
-    <video ref={setupVideo}
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="auto"
-      poster={POSTER}
-      className="h-full w-full object-cover"
-    >
-      <source src="/videos/fallback/Home-Main-Vid.mp4" type="video/mp4" />
-      <source src="/videos/Home-Main-Vid.webm" type="video/webm" />
-    </video>
-  );
-}
-
-function HeroPoster() {
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={POSTER}
-      alt=""
-      fetchPriority="high"
-      className="h-full w-full object-cover"
-    />
-  );
-}
-
 export default function Hero() {
   const containerRef = useRef(null);
-  const isDesktop = useSyncExternalStore(
-    subscribeToViewport,
-    getIsDesktop,
-    getServerIsDesktop,
-  );
-
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
@@ -108,7 +44,16 @@ export default function Hero() {
             }}
             className="z-20 overflow-hidden shadow-2xl"
           >
-            {isDesktop === true ? <HeroVideo /> : <HeroPoster />}
+            <video autoPlay
+              muted
+              loop
+              playsInline
+              fetchPriority="high"
+              className="h-full w-full object-cover"
+            >
+              <source src="/videos/Home-Main-Vid.webm" type="video/webm" />
+              <source src="/videos/fallback/Home-Main-Vid.mp4" type="video/mp4" />
+            </video>
           </motion.div>
         </div>
       </div>
@@ -145,7 +90,16 @@ export default function Hero() {
               (que se ha quedado fijo arriba). En cuanto el vídeo lo cubre
               del todo, el enunciado se suelta solo y sigue el scroll normal. */}
           <div className="relative z-20 aspect-video w-full shadow-2xl">
-            {isDesktop === false ? <HeroVideo /> : <HeroPoster />}
+            <video autoPlay
+              muted
+              loop
+              playsInline
+              fetchPriority="high"
+              className="h-full w-full object-cover"
+            >
+              <source src="/videos/Home-Main-Vid.webm" type="video/webm" />
+              <source src="/videos/fallback/Home-Main-Vid.mp4" type="video/mp4" />
+            </video>
           </div>
         </div>
 
