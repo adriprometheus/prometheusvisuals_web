@@ -115,6 +115,7 @@ const jsonLd = {
       knowsLanguage: ["es", "ca", "en", "de"],
       sameAs: [site.instagram],
       knowsAbout: [
+        "Marketing digital",
         "Producción audiovisual",
         "Fotografía profesional",
         "Gestión de redes sociales",

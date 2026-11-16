@@ -26,7 +26,7 @@ export default function Hero() {
         <div className="sticky top-0 h-screen w-full overflow-hidden">
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-start px-12 pt-24 text-center">
             <h1 className="mb-4 font-mono text-xs uppercase tracking-widest text-neutral-400">
-              Producción audiovisual & gestión de redes sociales en Mallorca
+              Agencia de marketing, producción audiovisual & redes sociales en Mallorca
             </h1>
             <span className="max-w-12xl text-5xl leading-tight tracking-tight text-white lg:text-7xl xl:text-8xl font-[family-name:var(--font-bebas)]">
               MIENTRAS LO PIENSAS, OTROS TE ADELANTAN
@@ -76,7 +76,7 @@ export default function Hero() {
           {/* Enunciado: sticky, se queda quieto arriba de la pantalla */}
           <div className="sticky top-0 z-10 flex min-h-[27vh] flex-col items-center justify-start px-6 pt-20 text-center">
             <h1 className="mb-4 text-xs uppercase tracking-widest text-neutral-400">
-              Producción audiovisual & gestión de redes sociales en Mallorca
+              Agencia de marketing, producción audiovisual & redes sociales en Mallorca
             </h1>
             <span className="max-w-md text-[3.85rem] leading-tight tracking-tight text-white font-[family-name:var(--font-bebas)]">
               MIENTRAS LO PIENSAS, OTROS TE ADELANTAN

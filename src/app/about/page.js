@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/site";
 export const metadata = pageMetadata({
   title: "Sobre nosotros: el equipo de Prometheus Visuals",
   description:
-    "Somos Marc y Jordi, una agencia audiovisual nacida en Mallorca. Unimos narrativa cinematográfica y estrategia digital para crear marcas memorables y rentables.",
+    "Somos Marc y Jordi, una agencia de marketing audiovisual nacida en Mallorca. Unimos narrativa cinematográfica y estrategia digital para crear marcas memorables y rentables.",
   path: "/about",
 });
 

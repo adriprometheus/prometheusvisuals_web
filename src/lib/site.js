@@ -6,9 +6,9 @@ export const siteUrl = "https://www.prometheusvisuals.com";
 export const site = {
   name: "Prometheus Visuals",
   shortName: "Prometheus",
-  title: "Prometheus Visuals | Producción audiovisual y redes sociales en Mallorca",
+  title: "Agencia de marketing en Mallorca | Prometheus Visuals",
   description:
-    "Agencia audiovisual en Mallorca: vídeo cinematográfico, fotografía profesional, gestión de redes sociales y campañas de Meta Ads para marcas que quieren vender más.",
+    "Agencia de marketing en Mallorca: vídeo cinematográfico, fotografía profesional, gestión de redes sociales y campañas de Meta Ads para marcas que quieren vender más.",
   locale: "es_ES",
   email: "contacto@prometheusvisuals.com",
   phone: "+34639412229",
@@ -27,7 +27,7 @@ export const absoluteUrl = (path = "/") => new URL(path, siteUrl).toString();
 const shareImage = {
   width: 1200,
   height: 630,
-  alt: "Prometheus Visuals — Producción audiovisual y gestión de redes sociales en Mallorca",
+  alt: "Prometheus Visuals — Agencia de marketing, producción audiovisual y redes sociales en Mallorca",
 };
 
 // Metadatos de una página interior. Next.js no fusiona `openGraph` ni

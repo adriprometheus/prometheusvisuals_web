@@ -7,7 +7,7 @@ import { mainServices } from "@/data/mainServices";
 import { absoluteUrl, pageMetadata, siteUrl } from "@/lib/site";
 
 export const metadata = pageMetadata({
-  title: "Servicios de producción audiovisual y redes sociales en Mallorca",
+  title: "Servicios de marketing, vídeo y redes sociales en Mallorca",
   description:
     "Rodaje cinematográfico, fotografía profesional, gestión de Instagram y campañas de Meta Ads en Mallorca. Descubre cómo impulsamos tu marca.",
   path: "/servicios",
