@@ -1,11 +1,48 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import ScrollToSection from "@/components/ScrollToSection";
 
 export default function Hero() {
+  const sectionRef = useRef(null);
   const containerRef = useRef(null);
+
+  // El vídeo arranca solo gracias a autoPlay (en el HTML del servidor). Esto
+  // es solo un refuerzo para iPhone: se para el vídeo de la otra versión
+  // (móvil/escritorio) para que no le quite ancho de banda, y si Safari no
+  // ha arrancado el visible (p. ej. en modo de bajo consumo), se vuelve a
+  // intentar al primer toque o scroll.
+  useEffect(() => {
+    const videos = [...sectionRef.current.querySelectorAll("video")];
+    const sync = () => {
+      for (const v of videos) {
+        if (v.offsetParent !== null) {
+          v.play().catch(() => {});
+        } else {
+          v.pause();
+          v.preload = "none";
+        }
+      }
+    };
+    sync();
+
+    // Al girar el móvil se puede pasar de la versión móvil a la de escritorio.
+    const onResize = () => requestAnimationFrame(sync);
+    window.addEventListener("resize", onResize);
+
+    const events = ["touchstart", "click", "scroll"];
+    const onInteract = () => {
+      sync();
+      events.forEach((e) => window.removeEventListener(e, onInteract));
+    };
+    events.forEach((e) => window.addEventListener(e, onInteract, { passive: true }));
+    return () => {
+      window.removeEventListener("resize", onResize);
+      events.forEach((e) => window.removeEventListener(e, onInteract));
+    };
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
@@ -18,7 +55,7 @@ export default function Hero() {
   const videoRadius = useTransform(scrollYProgress, [0, 0.5], [28, 0]);
 
   return (
-    <section className="relative w-full bg-black">
+    <section ref={sectionRef} className="relative w-full bg-black">
       {/* ================= ESCRITORIO ================= */}
       <div ref={containerRef}
         className="relative hidden h-[240vh] w-full md:block"
