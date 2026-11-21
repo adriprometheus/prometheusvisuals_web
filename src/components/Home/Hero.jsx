@@ -88,8 +88,10 @@ export default function Hero() {
               fetchPriority="high"
               className="h-full w-full object-cover"
             >
-              <source src="/videos/Home-Main-Vid.webm" type="video/webm" />
+              {/* MP4 (H.264) primero: pesa la mitad y el iPhone lo decodifica
+                  por hardware; con el WebM se quedaba en negro en Safari. */}
               <source src="/videos/fallback/Home-Main-Vid.mp4" type="video/mp4" />
+              <source src="/videos/Home-Main-Vid.webm" type="video/webm" />
             </video>
           </motion.div>
         </div>
@@ -134,8 +136,10 @@ export default function Hero() {
               fetchPriority="high"
               className="h-full w-full object-cover"
             >
-              <source src="/videos/Home-Main-Vid.webm" type="video/webm" />
+              {/* MP4 (H.264) primero: pesa la mitad y el iPhone lo decodifica
+                  por hardware; con el WebM se quedaba en negro en Safari. */}
               <source src="/videos/fallback/Home-Main-Vid.mp4" type="video/mp4" />
+              <source src="/videos/Home-Main-Vid.webm" type="video/webm" />
             </video>
           </div>
         </div>
